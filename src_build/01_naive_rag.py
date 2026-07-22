@@ -19,7 +19,7 @@
 # In diesem Notebook baut ihr die **naive** Variante: Chunking → Embeddings → Vektorsuche → Antwort.
 # In den Notebooks 2 und 3 werdet ihr sehen, wo sie versagt — und sie Schritt für Schritt aufrüsten.
 #
-# > ⏱️ ca. 20 Minuten · Übung 1 ist von euch zu lösen (`# TODO`).
+# > ca. 20 Minuten · Übung 1 ist von euch zu lösen (`# TODO`).
 
 # %% [markdown]
 # ## 0 · Setup
