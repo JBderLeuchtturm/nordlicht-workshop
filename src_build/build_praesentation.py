@@ -1,14 +1,16 @@
-"""Erzeugt die Bilder und Sprechernotizen für docs/praesentation.html aus der PPTX.
+"""Erzeugt Bilder, Titel und Sprechernotizen für docs/praesentation.html aus der PPTX.
 
-Immer dann ausführen, wenn sich RAG_Advanced_Folien.pptx geändert hat
-(zum Beispiel nachdem die echten Benchmark-Zahlen auf Folie 27 eingetragen wurden):
+Immer dann ausführen, wenn sich RAG_Advanced_Folien.pptx geändert hat:
 
     python src_build/build_praesentation.py
 
+Titel, Kapitel und Notizen werden automatisch aus der Datei gelesen — Folien dürfen
+also hinzukommen, wegfallen oder umbenannt werden, ohne dass hier etwas anzupassen ist.
+
 Voraussetzungen: LibreOffice (soffice), poppler-utils (pdftoppm), Pillow, python-pptx.
-Unter Windows am einfachsten über die WSL/Ubuntu-Shell oder mit installiertem LibreOffice
-im PATH. Wer das nicht hat: Folien in PowerPoint über "Datei > Exportieren > Bilder"
-als JPG mit 1600 px Breite ausgeben und als 01.jpg … 39.jpg nach docs/assets/folien/ legen.
+Ohne LibreOffice: Folien in PowerPoint über "Datei > Exportieren > Bilder" als JPG mit
+1600 px Breite ausgeben, als 01.jpg … NN.jpg nach docs/assets/folien/ legen und dieses
+Skript mit --nur-notizen aufrufen.
 """
 import json
 import re
@@ -25,33 +27,104 @@ TMP = ROOT / ".build_praes"
 BREITE = 1600
 QUALITAET = 90
 
-# Titel je Folie — bei Umbau des Decks hier anpassen.
-TITEL = {
-    1: "Titel — RAG Advanced", 2: "Was euch heute erwartet", 3: "Was ihr danach könnt",
-    4: "Teil 1 · RAG-Grundlagen", 5: "LLMs haben ein Wissensproblem", 6: "Der Fall Air Canada",
-    7: "RAG in zwei Phasen", 8: "Was ist ein Embedding?", 9: "Der Bi-Encoder (SBERT)",
-    10: "Warum eine Vektordatenbank?", 11: "Welche Vektordatenbank?", 12: "Chunking-Strategien",
-    13: "Der erweiterte Prompt", 14: "Die naive Pipeline", 15: "Zwei blinde Flecken der Vektorsuche",
-    16: "Hands-on · Notebook 01", 17: "Teil 2 · Advanced RAG", 18: "Hybrid Search: zwei Sucher",
-    19: "BM25 verstehen: drei Zutaten", 20: "Reciprocal Rank Fusion (RRF)", 21: "Hands-on · Notebook 02",
-    22: "Cross-Encoder Reranking", 23: "Das zweistufige Muster", 24: "Hands-on · Notebook 03",
-    25: "Relevanz ist nicht Gültigkeit", 26: "Der Fix: Metadaten ernst nehmen",
-    27: "Beweisen statt behaupten: Evaluation", 28: "Precision vs. Recall", 29: "RAGAS: vier Metriken",
-    30: "Diagnose-Logik: wo klemmt es?", 31: "Hands-on · Notebook 04", 32: "Teil 3 · Über RAG hinaus",
-    33: "RAG oder Fine-Tuning?", 34: "LoRA & QLoRA", 35: "Die Grenzen von statischem RAG",
-    36: "Das ReAct-Paradigma", 37: "Chancen, Risiken, Enterprise-Reife", 38: "Glossar",
-    39: "Fazit & Fragen",
+
+# PowerPoint ersetzt getippte Pfeile durch Wingdings-Zeichen aus der Private Use Area.
+# Auf der Folie sieht das richtig aus, im HTML-Titel waere es Datenmuell.
+SONDERZEICHEN = {
+    "\uf0e0": "\u2192", "\uf0df": "\u2190", "\uf0e1": "\u2191", "\uf0e2": "\u2193",
+    "\uf0b7": "\u00b7", "\uf0a7": "\u00b7", "\uf0fc": "\u2713", "\uf0fb": "\u2717",
+    "\uf0d8": "\u25b6", "\uf0e8": "\u21d2",
 }
 
 
-def kapitel(n: int) -> str:
-    if n <= 3:
-        return "Einstieg"
-    if n <= 16:
-        return "Teil 1 · Grundlagen"
-    if n <= 31:
-        return "Teil 2 · Advanced RAG"
-    return "Teil 3 · Ausblick"
+def saeubern(text: str) -> str:
+    for alt, neu in SONDERZEICHEN.items():
+        text = text.replace(alt, neu)
+    # was sonst noch aus der Private Use Area kommt, faellt weg
+    text = "".join(c for c in text if not "\ue000" <= c <= "\uf8ff")
+    return re.sub(r"\s+", " ", text).strip()
+
+
+def kicker(folie) -> str:
+    """Kleine Grossbuchstaben-Zeile ueber dem Titel, z. B. 'ZUM MITNEHMEN'."""
+    for shape in folie.shapes:
+        if not shape.has_text_frame:
+            continue
+        text = saeubern(shape.text_frame.text)
+        if 3 < len(text) < 40 and text == text.upper() and any(c.isalpha() for c in text):
+            return text.title()
+    return ""
+
+
+def folien_titel(folie) -> str:
+    """Titel = Text mit der groessten Schriftgroesse, bei Gleichstand der oberste."""
+    kandidaten = []
+    for shape in folie.shapes:
+        if not shape.has_text_frame:
+            continue
+        text = shape.text_frame.text.strip()
+        if not text:
+            continue
+        groesse = 0.0
+        for absatz in shape.text_frame.paragraphs:
+            for lauf in absatz.runs:
+                if lauf.font.size:
+                    groesse = max(groesse, lauf.font.size.pt)
+        kandidaten.append((groesse, shape.top or 0, saeubern(text.split("\n")[0])))
+    if not kandidaten:
+        return ""
+    kandidaten.sort(key=lambda k: (-k[0], k[1]))
+    return kandidaten[0][2][:70]
+
+
+def teil_nummer(folie):
+    """Nummer des Abschnitts, falls die Folie ein Teiler ist (Text 'TEIL 2')."""
+    for shape in folie.shapes:
+        if not shape.has_text_frame:
+            continue
+        treffer = re.fullmatch(r"TEIL\s*(\d+)", saeubern(shape.text_frame.text).upper())
+        if treffer:
+            return int(treffer.group(1))
+    return None
+
+
+def metadaten_lesen():
+    from pptx import Presentation
+
+    prs = Presentation(PPTX)
+    roh = []
+    for nummer, folie in enumerate(prs.slides, start=1):
+        titel = folien_titel(folie)
+        teil = teil_nummer(folie)
+        notiz = ""
+        if folie.has_notes_slide:
+            notiz = folie.notes_slide.notes_text_frame.text.strip()
+        if re.fullmatch(r"Notebook \d+", titel):
+            titel = "Hands-on \u00b7 " + titel
+        if teil:
+            titel = f"Teil {teil} \u00b7 {titel}"
+        roh.append({"n": nummer, "t": titel or f"Folie {nummer}", "k": notiz,
+                    "teil": teil, "kick": kicker(folie)})
+
+    # Gleichlautende Titel mit dem Kicker unterscheiden (z. B. Aha-Moment vs. Fazit)
+    gesehen = {}
+    for eintrag in roh:
+        schluessel = eintrag["t"].rstrip(".")
+        if schluessel in gesehen and eintrag["kick"]:
+            eintrag["t"] = f"{eintrag['kick']}: {schluessel}"
+        gesehen[schluessel] = True
+
+    kapitel = "Einstieg"
+    daten = []
+    for eintrag in roh:
+        if eintrag["teil"]:
+            kapitel = eintrag["t"]
+        daten.append({"n": eintrag["n"], "t": eintrag["t"], "k": eintrag["k"], "kap": kapitel})
+
+    ohne = [d["n"] for d in daten if not d["k"]]
+    if ohne:
+        print(f"  Hinweis: keine Sprechernotiz auf Folie {ohne}")
+    return daten
 
 
 def pruefe_werkzeuge():
@@ -76,30 +149,15 @@ def bilder_erzeugen():
 
     gesamt = 0
     seiten = sorted(TMP.glob("f-*.png"))
-    for p in seiten:
-        n = int(re.search(r"f-(\d+)", p.name).group(1))
-        ziel = OUT_IMG / f"{n:02d}.jpg"
-        Image.open(p).convert("RGB").save(ziel, "JPEG", quality=QUALITAET, optimize=True, progressive=True)
+    for seite in seiten:
+        nummer = int(re.search(r"f-(\d+)", seite.name).group(1))
+        ziel = OUT_IMG / f"{nummer:02d}.jpg"
+        Image.open(seite).convert("RGB").save(
+            ziel, "JPEG", quality=QUALITAET, optimize=True, progressive=True)
         gesamt += ziel.stat().st_size
     shutil.rmtree(TMP, ignore_errors=True)
-    print(f"  {len(seiten)} Bilder erzeugt ({gesamt / 1024 / 1024:.1f} MB) → {OUT_IMG.relative_to(ROOT)}")
+    print(f"  {len(seiten)} Bilder erzeugt ({gesamt / 1024 / 1024:.1f} MB) -> {OUT_IMG.relative_to(ROOT)}")
     return len(seiten)
-
-
-def notizen_lesen():
-    from pptx import Presentation
-
-    prs = Presentation(PPTX)
-    daten = []
-    for i, folie in enumerate(prs.slides, start=1):
-        notiz = ""
-        if folie.has_notes_slide:
-            notiz = folie.notes_slide.notes_text_frame.text.strip()
-        daten.append({"n": i, "t": TITEL.get(i, f"Folie {i}"), "k": notiz, "kap": kapitel(i)})
-    fehlend = [d["n"] for d in daten if not d["k"]]
-    if fehlend:
-        print(f"  Hinweis: keine Sprechernotiz auf Folie {fehlend}")
-    return daten
 
 
 def presenter_aktualisieren(daten):
@@ -107,19 +165,32 @@ def presenter_aktualisieren(daten):
     neu = json.dumps(daten, ensure_ascii=False, separators=(",", ":"))
     html, anzahl = re.subn(r"const S = \[.*?\];", f"const S = {neu};", html, count=1, flags=re.S)
     if anzahl != 1:
-        sys.exit("Datenblock in praesentation.html nicht gefunden — bitte manuell prüfen.")
+        sys.exit("Datenblock in praesentation.html nicht gefunden - bitte manuell pruefen.")
     PRESENTER.write_text(html, encoding="utf-8")
-    print(f"  Titel und Notizen für {len(daten)} Folien in praesentation.html eingesetzt")
+    print(f"  Titel und Notizen fuer {len(daten)} Folien eingesetzt")
 
 
 if __name__ == "__main__":
     if not PPTX.exists():
         sys.exit(f"Nicht gefunden: {PPTX}")
-    pruefe_werkzeuge()
-    print("Folien werden neu erzeugt …")
-    anzahl_bilder = bilder_erzeugen()
-    daten = notizen_lesen()
-    if len(daten) != anzahl_bilder:
+    nur_notizen = "--nur-notizen" in sys.argv
+
+    print("Praesentation wird aufgebaut ...")
+    anzahl_bilder = None
+    if not nur_notizen:
+        pruefe_werkzeuge()
+        anzahl_bilder = bilder_erzeugen()
+
+    daten = metadaten_lesen()
+    if anzahl_bilder is not None and anzahl_bilder != len(daten):
         print(f"  Achtung: {anzahl_bilder} Bilder, aber {len(daten)} Folien in der PPTX.")
     presenter_aktualisieren(daten)
-    print("Fertig. docs/praesentation.html ist auf dem aktuellen Stand.")
+
+    print("\nGliederung:")
+    letztes = None
+    for d in daten:
+        if d["kap"] != letztes:
+            print(f"  -- {d['kap']}")
+            letztes = d["kap"]
+        print(f"     {d['n']:2d}  {d['t']}")
+    print("\nFertig. docs/praesentation.html ist auf dem aktuellen Stand.")
