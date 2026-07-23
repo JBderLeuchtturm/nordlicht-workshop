@@ -359,6 +359,12 @@ tbody td{padding:11px 17px;border-bottom:1px solid var(--line-soft);vertical-ali
 tbody tr:last-child td{border-bottom:none}
 tbody tr:hover{background:var(--paper)}
 td.id{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.akte-link{display:inline-flex;align-items:center;gap:6px;color:var(--ink);text-decoration:none;
+  font-weight:500;border-bottom:1px solid transparent;transition:color .12s,border-color .12s}
+.akte-link svg{opacity:.35;flex:none;transition:opacity .12s,transform .12s}
+.akte-link:hover{color:var(--teal);border-bottom-color:var(--aurora)}
+.akte-link:hover svg{opacity:1;transform:translateX(2px)}
+tbody tr:hover .akte-link svg{opacity:.7}
 .tag{display:inline-block;font-size:11.5px;font-weight:700;border-radius:5px;padding:2.5px 9px}
 .tag.g{background:var(--green-bg);color:var(--green)}
 .tag.a{background:#ECEFF3;color:#78889B}
@@ -449,6 +455,32 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
 .totop.on{opacity:1;visibility:visible;transform:none}
 .totop:hover{background:var(--teal)}
 @media print{.totop{display:none}}
+
+/* ── Benchmark-Ergebnis ──────────────────────── */
+.bmbox{margin-top:26px;background:var(--white);border:1px solid var(--line);border-radius:var(--r);
+  padding:24px 26px 20px}
+@media(max-width:620px){.bmbox{padding:18px 16px 14px}}
+.bmlegende{display:flex;flex-wrap:wrap;gap:22px;margin-bottom:26px}
+.bmkey{display:inline-flex;align-items:center;gap:8px;font-size:13px;font-weight:700;color:var(--ink)}
+.bmkey i{width:11px;height:11px;border-radius:3px;display:block;flex:none}
+.bmkey span{font-weight:400;color:var(--mute)}
+.bmchart{display:grid;grid-template-columns:repeat(5,1fr);gap:14px;align-items:end;
+  min-height:210px;padding-bottom:2px}
+@media(max-width:700px){.bmchart{grid-template-columns:repeat(2,1fr);gap:20px}}
+.bmstufe{display:flex;flex-direction:column;justify-content:flex-end;height:100%}
+.bmpaar{display:flex;gap:6px;align-items:flex-end;height:180px}
+.bmsaeule{flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%}
+.bmsaeule b{font-family:var(--mono);font-size:12.5px;color:var(--ink);margin-bottom:5px;font-weight:500}
+.bmsaeule .bar{width:100%;border-radius:4px 4px 0 0;min-height:3px;
+  transition:height .5s cubic-bezier(.2,.7,.3,1)}
+@media(prefers-reduced-motion:reduce){.bmsaeule .bar{transition:none}}
+.bmname{font-size:12px;color:var(--mute);text-align:center;margin-top:10px;padding-top:9px;
+  border-top:1px solid var(--line);line-height:1.35}
+.bmstufe.best .bmname{color:var(--ink);font-weight:700}
+.bmpointe{margin-top:20px;background:var(--night);color:#CFDDEB;border-radius:var(--r);
+  padding:20px 24px;font-size:14.5px;display:grid;grid-template-columns:auto 1fr;gap:14px;align-items:start}
+@media(max-width:620px){.bmpointe{grid-template-columns:1fr}}
+.bmpointe b{color:var(--aurora-lt)}
 
 /* ── Glossar ─────────────────────────────────── */
 .sheet--wide{max-width:840px}
@@ -1113,6 +1145,27 @@ def suche_dense(frage, k=3):
   </div>
 </section>
 
+<!-- Ergebnis: erscheint erst, wenn assets/benchmark.json existiert -->
+<section class="sec" id="ergebnis" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:none">
+  <div class="wrap">
+    <span class="eyebrow">Notebook 04 · Messergebnis</span>
+    <h2>Beweisen statt behaupten</h2>
+    <p class="lead" style="margin-top:10px">Fünf Ausbaustufen, gegen dieselben fünfzehn Gold-Fragen
+      gemessen. Keine Schätzung, keine Anekdote — das ist der Durchlauf aus Notebook&nbsp;04.</p>
+
+    <div class="bmbox">
+      <div class="bmlegende">
+        <span class="bmkey"><i style="background:var(--teal)"></i>Hit@3 <span>relevantes Dokument in den Top-3</span></span>
+        <span class="bmkey"><i style="background:var(--aurora)"></i>MRR <span>Rang des ersten Treffers</span></span>
+      </div>
+      <div class="bmchart" id="bmchart"></div>
+      <p class="tblnote" id="bmfuss"></p>
+    </div>
+
+    <div class="bmpointe" id="bmpointe"></div>
+  </div>
+</section>
+
 <!-- Abschluss -->
 <section class="sec" id="abschluss" style="background:var(--night);color:#CFDDEB;position:relative;overflow:hidden">
   <div aria-hidden="true" style="position:absolute;left:-15%;top:-40%;width:130%;height:140%;filter:blur(48px);opacity:.36;background:linear-gradient(100deg,transparent 10%,rgba(46,196,182,.6) 38%,rgba(28,114,147,.4) 66%,transparent 92%)"></div>
@@ -1137,7 +1190,9 @@ def suche_dense(frage, k=3):
     <span class="eyebrow">Dokumentenverzeichnis</span>
     <h2>Die durchsuchte Wissensbasis</h2>
     <p class="lead" style="margin-top:10px">Genau diese zwölf Dokumente durchsucht eure Pipeline.
-      Fachlich erfunden, strukturell realistisch — inklusive allem, was in echten Intranets so herumliegt.</p>
+      Fachlich erfunden, strukturell realistisch — inklusive allem, was in echten Intranets so herumliegt.
+      <b style="color:var(--ink)">Jeder Titel ist anklickbar:</b> dahinter liegt das vollständige Dokument —
+      und daneben dieselbe Akte so, wie die Pipeline sie sieht, in Chunks zerlegt.</p>
     <div class="filterbar" role="group" aria-label="Dokumente filtern">
       <button class="fbtn act" onclick="filt(this,'alle')">Alle (12)</button>
       <button class="fbtn" onclick="filt(this,'Personal')">Personal</button>
@@ -1150,18 +1205,18 @@ def suche_dense(frage, k=3):
       <table>
         <thead><tr><th>Kennung</th><th>Titel</th><th>Bereich</th><th>Stand</th><th>Status</th></tr></thead>
         <tbody id="docs">
-          <tr data-k="Vertrieb"><td class="id">sla-2025</td><td>Service Level Agreements — Übersicht 2025</td><td>Vertrieb</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Personal"><td class="id">mobiles-arbeiten-2025</td><td>Richtlinie Mobiles Arbeiten</td><td>Personal</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Personal archiviert"><td class="id">homeoffice-2022</td><td>Homeoffice-Regelung</td><td>Personal</td><td>2022</td><td><span class="tag a">archiviert</span></td></tr>
-          <tr data-k="Kundenservice"><td class="id">reklamation-2025</td><td>Reklamations- und Schadensprozess</td><td>Kundenservice</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Betrieb"><td class="id">gefahrgut-2024</td><td>Arbeitsanweisung Gefahrguttransport (ADR)</td><td>Betrieb</td><td>2024</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="IT"><td class="id">kundenportal-2025</td><td>Handbuch Kundenportal und Sendungsverfolgung</td><td>IT</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Vertrieb"><td class="id">preise-zuschlaege-2025</td><td>Preisblatt Zuschläge und Nebenkosten</td><td>Vertrieb</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Personal"><td class="id">urlaub-2024</td><td>Betriebsvereinbarung Urlaub</td><td>Personal</td><td>2024</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Betrieb"><td class="id">nachhaltigkeit-2025</td><td>Nachhaltigkeitsprogramm Fuhrpark 2030</td><td>Betrieb</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="IT"><td class="id">it-sicherheit-2024</td><td>IT-Sicherheitsrichtlinie</td><td>IT</td><td>2024</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Allgemein"><td class="id">standorte-2025</td><td>Unternehmensprofil und Standorte</td><td>Allgemein</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
-          <tr data-k="Finanzen"><td class="id">spesen-2023</td><td>Reisekosten- und Spesenrichtlinie</td><td>Finanzen</td><td>2023</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Vertrieb"><td class="id">sla-2025</td><td><a class="akte-link" href="akten/sla-2025.html">Service Level Agreements — Übersicht 2025<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Vertrieb</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Personal"><td class="id">mobiles-arbeiten-2025</td><td><a class="akte-link" href="akten/mobiles-arbeiten-2025.html">Richtlinie Mobiles Arbeiten<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Personal</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Personal archiviert"><td class="id">homeoffice-2022</td><td><a class="akte-link" href="akten/homeoffice-2022.html">Homeoffice-Regelung<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Personal</td><td>2022</td><td><span class="tag a">archiviert</span></td></tr>
+          <tr data-k="Kundenservice"><td class="id">reklamation-2025</td><td><a class="akte-link" href="akten/reklamation-2025.html">Reklamations- und Schadensprozess<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Kundenservice</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Betrieb"><td class="id">gefahrgut-2024</td><td><a class="akte-link" href="akten/gefahrgut-2024.html">Arbeitsanweisung Gefahrguttransport (ADR)<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Betrieb</td><td>2024</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="IT"><td class="id">kundenportal-2025</td><td><a class="akte-link" href="akten/kundenportal-2025.html">Handbuch Kundenportal und Sendungsverfolgung<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>IT</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Vertrieb"><td class="id">preise-zuschlaege-2025</td><td><a class="akte-link" href="akten/preise-zuschlaege-2025.html">Preisblatt Zuschläge und Nebenkosten<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Vertrieb</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Personal"><td class="id">urlaub-2024</td><td><a class="akte-link" href="akten/urlaub-2024.html">Betriebsvereinbarung Urlaub<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Personal</td><td>2024</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Betrieb"><td class="id">nachhaltigkeit-2025</td><td><a class="akte-link" href="akten/nachhaltigkeit-2025.html">Nachhaltigkeitsprogramm Fuhrpark 2030<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Betrieb</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="IT"><td class="id">it-sicherheit-2024</td><td><a class="akte-link" href="akten/it-sicherheit-2024.html">IT-Sicherheitsrichtlinie<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>IT</td><td>2024</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Allgemein"><td class="id">standorte-2025</td><td><a class="akte-link" href="akten/standorte-2025.html">Unternehmensprofil und Standorte<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Allgemein</td><td>2025</td><td><span class="tag g">gültig</span></td></tr>
+          <tr data-k="Finanzen"><td class="id">spesen-2023</td><td><a class="akte-link" href="akten/spesen-2023.html">Reisekosten- und Spesenrichtlinie<svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" aria-hidden="true"><path d="M9 18l6-6-6-6"/></svg></a></td><td>Finanzen</td><td>2023</td><td><span class="tag g">gültig</span></td></tr>
         </tbody>
       </table>
     </div>
@@ -1569,6 +1624,38 @@ document.getElementById("q").addEventListener("keydown",e=>{
   location.hash = hit ? hit[1] : "#werkbank";
   e.target.blur();
 });
+
+/* ── Benchmark: echte Zahlen aus Notebook 04 ────────────────── */
+fetch("assets/benchmark.json")
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(b => { baueBenchmark(b); document.getElementById("ergebnis").style.display = ""; })
+  .catch(() => { /* noch nicht gemessen: Abschnitt bleibt ausgeblendet */ });
+
+function baueBenchmark(b){
+  const max = 1.0;
+  const beste = b.stufen.reduce((a,s) => s.hit3 > a.hit3 ? s : a, b.stufen[0]);
+  document.getElementById("bmchart").innerHTML = b.stufen.map(s => {
+    const top = s === beste;
+    const saeule = (wert, farbe) =>
+      `<div class="bmsaeule"><b>${wert.toFixed(2).replace(".", ",")}</b>
+         <div class="bar" style="height:${Math.max(wert/max*100,1.5)}%;background:${farbe}"></div></div>`;
+    return `<div class="bmstufe${top ? " best" : ""}">
+      <div class="bmpaar">${saeule(s.hit3, "var(--teal)")}${saeule(s.mrr, "var(--aurora)")}</div>
+      <div class="bmname">${s.name}</div>
+    </div>`;
+  }).join("");
+
+  document.getElementById("bmfuss").textContent =
+    `${b.fragen} Gold-Fragen · ${b.chunks} Chunks aus ${b.dokumente} Dokumenten · gemessen am ` +
+    b.erzeugt.split("-").reverse().join(".") + " · Werte zwischen 0 und 1.";
+
+  const p = document.getElementById("bmpointe");
+  if (b.pointe) {
+    p.innerHTML = `<svg width="21" height="21" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6"
+      stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="9"/>
+      <path d="M12 8v5M12 16.5v.01"/></svg><p>${b.pointe}</p>`;
+  } else { p.style.display = "none"; }
+}
 
 /* ── Live-Demo: echte Pipeline-Ergebnisse ───────────────────── */
 let DEMO = null, demoIdx = 0;

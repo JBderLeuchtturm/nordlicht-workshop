@@ -1,0 +1,34 @@
+{
+ "erzeugt": "2026-07-23",
+ "dokumente": 12,
+ "chunks": 36,
+ "fragen": 15,
+ "stufen": [
+  {
+   "name": "Dense",
+   "hit3": 1.0,
+   "mrr": 1.0
+  },
+  {
+   "name": "BM25",
+   "hit3": 0.867,
+   "mrr": 0.833
+  },
+  {
+   "name": "Hybrid (RRF)",
+   "hit3": 1.0,
+   "mrr": 0.956
+  },
+  {
+   "name": "+ Rerank",
+   "hit3": 1.0,
+   "mrr": 0.967
+  },
+  {
+   "name": "Advanced",
+   "hit3": 1.0,
+   "mrr": 1.0
+  }
+ ],
+ "pointe": "<b>Frage 13 ist der Grund für die letzte Stufe.</b> Bis einschließlich Reranking landet dort die archivierte Fassung von 2022 vorn (RR&nbsp;0.50); erst der Metadaten-Filter dreht das auf RR&nbsp;1.00. Kein Retrieval-Trick hat das gelöst — nur gepflegte Metadaten."
+}
