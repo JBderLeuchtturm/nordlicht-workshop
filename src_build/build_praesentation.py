@@ -1,3 +1,4 @@
+
 """Erzeugt Bilder, Titel und Sprechernotizen für docs/praesentation.html aus der PPTX.
 
 Immer dann ausführen, wenn sich RAG_Advanced_Folien.pptx geändert hat:
