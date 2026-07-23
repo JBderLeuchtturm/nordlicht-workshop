@@ -8,22 +8,22 @@ META = {
     "01_naive_rag.py": (
         "Notebook 01 · Naive RAG",
         "Die Basis-Pipeline: Chunking → Embeddings → Vektorsuche",
-        "⏱ ~15 min · Übung 1",
+        "ca. 15 min · Übung 1",
     ),
     "02_hybrid_search_rrf.py": (
         "Notebook 02 · Hybrid Search & RRF",
         "BM25 + Vektorsuche, fair fusioniert über Reciprocal Rank Fusion",
-        "⏱ ~15 min · Übung 2",
+        "ca. 15 min · Übung 2",
     ),
     "03_reranking_metadaten.py": (
         "Notebook 03 · Reranking & Metadaten",
         "Cross-Encoder-Präzision — und die Grenze der Relevanz",
-        "⏱ ~25 min · Übungen 3 + 4",
+        "ca. 25 min · Übungen 3 + 4",
     ),
     "04_evaluation.py": (
         "Notebook 04 · Evaluation",
         "Fünf Ausbaustufen, fünfzehn Gold-Fragen, zwei Metriken",
-        "⏱ ~10 min · Demo",
+        "ca. 10 min · Demo",
     ),
 }
 

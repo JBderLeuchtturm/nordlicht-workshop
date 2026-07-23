@@ -4,20 +4,20 @@
 #   <div style="font-size:11px;letter-spacing:2.5px;color:#9BE3D8;font-weight:700">NORDLICHT LOGISTIK · PROJEKT WISSENSASSISTENT</div>
 #   <div style="font-size:27px;font-weight:700;margin-top:7px;line-height:1.2">Notebook 02 · Hybrid Search & RRF</div>
 #   <div style="color:#C7D4E3;font-size:14px;margin-top:7px">BM25 + Vektorsuche, fair fusioniert über Reciprocal Rank Fusion</div>
-#   <div style="color:#7E93AC;font-size:12.5px;margin-top:12px">Workshop RAG Advanced · WDSKI23A · DHBW Mannheim &nbsp;·&nbsp; ⏱ ~15 min · Übung 2</div>
+#   <div style="color:#7E93AC;font-size:12.5px;margin-top:12px">Workshop RAG Advanced · WDSKI23A · DHBW Mannheim &nbsp;·&nbsp; ca. 15 min · Übung 2</div>
 # </div>
 #
 # **Workshop RAG Advanced · WDSKI23A · DHBW Mannheim**
 #
 # In Notebook 1 hat die reine Vektorsuche bei exakten Begriffen (Fehlercodes,
-# Produktnamen) geschwächelt — Embeddings erfassen Bedeutung, keine Zeichenketten.
+# Produktnamen) geschwächelt. Embeddings erfassen Bedeutung, keine Zeichenketten.
 # Klassische **Keyword-Suche (BM25)** kann genau das. Dafür scheitert sie an
 # Umgangssprache und Synonymen.
 #
 # **Plan:** Beide Verfahren parallel laufen lassen und die Ranglisten mit
-# **Reciprocal Rank Fusion (RRF)** verschmelzen — das Beste aus beiden Welten.
+# **Reciprocal Rank Fusion (RRF)** verschmelzen, sodass beide Stärken erhalten bleiben.
 #
-# > ⏱️ ca. 20 Minuten · Übung 2 ist von euch zu lösen (`# TODO`).
+# > Dauer ca. 20 Minuten · Übung 2 ist von euch zu lösen (`# TODO`).
 
 # %% [markdown]
 # ## 0 · Setup (kompakt aus Notebook 1)
@@ -46,8 +46,8 @@ PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffe
 def fortschritt(kennung, text=""):
     """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
     if PORTAL:
-        zusatz = f" \u2014 {text}" if text else ""
-        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        zusatz = f": {text}" if text else ""
+        print(f"\nIm Portal abhaken{zusatz}:")
         print(f"   {PORTAL}/?fertig={kennung}")
 
 
@@ -102,10 +102,10 @@ print(f"Setup fertig: {len(chunks)} Chunks indexiert.")
 # **BM25** ("Best Matching 25") ist seit den 90ern der Standard klassischer Suchmaschinen.
 # Grundidee (vgl. VL 3): Ein Dokument ist relevant, wenn es die Suchbegriffe
 # **häufig** enthält (Term Frequency), die Begriffe **selten** im Gesamtkorpus sind
-# (Inverse Document Frequency) — normalisiert um die Dokumentlänge.
+# (Inverse Document Frequency), normalisiert um die Dokumentlänge.
 #
 # BM25 vergleicht **exakte Wortformen**. Genau deshalb ist es stark bei Codes,
-# Produktnamen und Fachbegriffen — und blind für Synonyme.
+# Produktnamen und Fachbegriffen, aber blind für Synonyme.
 
 # %%
 from rank_bm25 import BM25Okapi
@@ -130,7 +130,7 @@ def suche_bm25(frage, k=3):
 
 # %%
 def zeige_duell(frage, k=3):
-    print(f"❓ {frage}\n")
+    print(f"Frage: {frage}\n")
     print(f"{'BM25 (Keyword)':<52} | Dense (Vektor)")
     print("-" * 105)
     for (c_b, s_b), (c_d, s_d) in zip(suche_bm25(frage, k), suche_dense(frage, k)):
@@ -144,11 +144,11 @@ zeige_duell("NL-410")                                            # exakter Code
 zeige_duell("Krieg ich Kohle zurück, wenn's Paket im Eimer ankommt?")  # Umgangssprache
 
 # %% [markdown]
-# 💡 **Beobachtung:** Beim Fehlercode trifft BM25 sicher (exakter Token-Match, hoher Score-Abstand).
-# Bei der umgangssprachlichen Frage findet BM25 fast nichts Brauchbares — kein einziges
+# **Beobachtung:** Beim Fehlercode trifft BM25 sicher (exakter Token-Match, hoher Score-Abstand).
+# Bei der umgangssprachlichen Frage findet BM25 fast nichts Brauchbares. Kein einziges
 # Wort der Frage steht im Reklamations-Dokument. Die Vektorsuche versteht dagegen die *Bedeutung*.
 #
-# **Zwei Ranglisten, zwei Stärken — aber welche gilt jetzt?**
+# **Zwei Ranglisten, zwei Stärken. Aber welche gilt jetzt?**
 #
 # ## 3 · Das Fusionsproblem
 #
@@ -165,7 +165,7 @@ zeige_duell("Krieg ich Kohle zurück, wenn's Paket im Eimer ankommt?")  # Umgang
 # - Dokumente, die **in beiden Listen weit oben** stehen, gewinnen.
 
 # %% [markdown]
-# ## 4 · Übung 2: RRF implementieren 🛠️
+# ## 4 · Übung 2: RRF implementieren
 #
 # Implementiert die Fusion. Input: mehrere Ranglisten (je eine Liste von `chunk_id`s,
 # Position 0 = Rang 1). Output: Dictionary `{chunk_id: rrf_score}`.
@@ -184,15 +184,15 @@ def rrf_fusion(ranglisten, k=60):
     return scores
 
 # %%
-# ✅ Selbsttest mit dem Worked Example aus VL 3 (Folie "Reciprocal Rank Fusion"):
+# Selbsttest mit dem Worked Example aus VL 3 (Folie "Reciprocal Rank Fusion"):
 #    BM25-Rangliste: A, B, C   ·   Dense-Rangliste: B, C, A
 beispiel = rrf_fusion([["A", "B", "C"], ["B", "C", "A"]], k=60)
 gewinner = max(beispiel, key=beispiel.get)
 for name, score in sorted(beispiel.items(), key=lambda x: -x[1]):
     print(f"  {name}: {score:.4f}")
-assert gewinner == "B", "B steht auf Rang 2 und Rang 1 — Konsistenz muss belohnt werden!"
+assert gewinner == "B", "B steht auf Rang 2 und Rang 1, Konsistenz muss belohnt werden!"
 assert abs(beispiel["B"] - (1 / 62 + 1 / 61)) < 1e-9
-print("✅ Übung 2 gelöst! B gewinnt — Konsistenz über beide Listen wird belohnt.")
+print("Übung 2 gelöst. B gewinnt, Konsistenz über beide Listen wird belohnt.")
 fortschritt("u2", "Übung 2")
 
 # %% [markdown]
@@ -215,26 +215,26 @@ for frage in [
     "Krieg ich Kohle zurück, wenn's Paket im Eimer ankommt?",
     "Welche Zustellquote garantiert NL-EXPRESS-24?",
 ]:
-    print(f"❓ {frage}")
+    print(f"Frage: {frage}")
     for platz, (c, score) in enumerate(suche_hybrid(frage), start=1):
         print(f"  {platz}. (RRF {score:.4f}) [{c['status']}] {c['titel']} · {c['chunk_id']}")
     print()
 
 # %% [markdown]
-# 💪 **Beide Problemfälle aus Notebook 1 sitzen jetzt** — ohne dass wir für den
+# **Beide Problemfälle aus Notebook 1 sitzen jetzt**, ohne dass wir für den
 # jeweils anderen Fall etwas verschlechtert hätten.
 #
-# ### 🤔 Diskutiert kurz (2 Minuten)
+# ### Diskutiert kurz (2 Minuten)
 #
-# 1. Ein RRF-Score von 0,0325 — ist das "gut"? Was sagt der Wert aus, was nicht?
-#    *(Tipp: Er hängt nur von Rängen ab, nicht vom Inhalt — über verschiedene Fragen
+# 1. Ein RRF-Score von 0,0325: ist das "gut"? Was sagt der Wert aus, was nicht?
+#    *(Tipp: Er hängt nur von Rängen ab, nicht vom Inhalt, über verschiedene Fragen
 #    hinweg ist er nicht vergleichbar.)*
 # 2. Wir holen jetzt pro Liste 8 Kandidaten statt 3. Das erhöht den **Recall**
-#    (mehr Relevantes im Topf) — was passiert dabei tendenziell mit der **Precision**
+#    (mehr Relevantes im Topf). Was passiert dabei tendenziell mit der **Precision**
 #    im Kontextfenster des LLM?
 # 3. Reicht "das richtige Dokument ist *irgendwo* in den Top-8"? Wer entscheidet,
 #    was davon wirklich ins LLM wandert?
 #
 # **→ Weiter in Notebook 3:** Ein **Cross-Encoder** liest Frage und Kandidaten
-# *gemeinsam* und sortiert die Top-Kandidaten präzise — Reranking. Und dann zeigen
+# *gemeinsam* und sortiert die Top-Kandidaten präzise. Das nennt sich Reranking. Und dann zeigen
 # wir euch eine Frage, an der selbst diese Luxus-Pipeline grandios scheitert …

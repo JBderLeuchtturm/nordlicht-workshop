@@ -610,6 +610,9 @@ kbd{font-family:var(--mono);font-size:11.5px;background:var(--paper);border:1px 
           <a href="praesentation.html">Präsentation</a>
         </div>
         <div class="navitem">
+          <a href="freigabe.html">Freigabe-Prüfung</a>
+        </div>
+        <div class="navitem">
           <a href="#hilfe">Hilfe <svg class="caret" viewBox="0 0 12 12" fill="currentColor" aria-hidden="true"><path d="M6 8.5 1.5 4h9z"/></svg></a>
           <div class="submenu">
             <a href="#hilfe">Häufige Fragen<small>Colab, Downloads, Neustart</small></a>
@@ -1201,6 +1204,24 @@ return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
   </div>
 </section>
 
+<!-- Abschluss -->
+<section class="sec" id="abschluss" style="background:var(--night);color:#CFDDEB;position:relative;overflow:hidden">
+  <div aria-hidden="true" style="position:absolute;left:-15%;top:-40%;width:130%;height:140%;filter:blur(48px);opacity:.36;background:linear-gradient(100deg,transparent 10%,rgba(46,196,182,.6) 38%,rgba(28,114,147,.4) 66%,transparent 92%)"></div>
+  <div class="wrap" style="position:relative">
+    <span class="eyebrow" style="color:var(--aurora-lt)">Zum Schluss</span>
+    <h2 style="color:#fff;margin-top:10px">Der Assistent ist fertig. Geht er live?</h2>
+    <p style="max-width:60ch;color:#BFD0E2;margin-top:12px">Sechs echte Anfragen aus dem Testbetrieb,
+      sechs echte Antworten. Ihr entscheidet bei jeder einzelnen, ob sie rausgehen darf. Danach wisst ihr,
+      was euer Metadaten-Filter geschafft hat und was er nicht einmal berührt.</p>
+    <div style="display:flex;gap:12px;flex-wrap:wrap;margin-top:26px">
+      <a class="btn btn--go" href="freigabe.html">Freigabe-Prüfung starten</a>
+      <a class="btn btn--out" href="#wissensbasis">Erst die Wissensbasis ansehen</a>
+    </div>
+    <p style="font-size:12.5px;color:#7E93AC;margin-top:22px">Dauert etwa zehn Minuten. Gedacht für den
+      gemeinsamen Abschluss, funktioniert aber auch allein.</p>
+  </div>
+</section>
+
 <!-- Wissensbasis -->
 <section class="sec" id="wissensbasis" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="wrap">
@@ -1301,9 +1322,9 @@ return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
         <details>
           <summary>Gibt es Tastenkürzel oder ein Handout zum Mitnehmen?</summary>
           <div class="ans"><kbd>G</kbd> öffnet das Glossar mit allen Fachbegriffen, <kbd>W</kbd> springt zur Werkbank,
-            <kbd>P</kbd> startet die Präsentation. Und wer lieber etwas in der Hand hat: Diese Seite ausdrucken
-            (<kbd>Strg</kbd>+<kbd>P</kbd>) ergibt ein aufgeräumtes Handout — Navigation und Schaltflächen fallen
-            dabei weg, Hinweise und Lösungen sind vollständig enthalten.</div>
+            <kbd>P</kbd> startet die Präsentation, <kbd>F</kbd> die Freigabe-Prüfung. Und wer lieber etwas in der Hand hat:
+            Diese Seite ausdrucken (<kbd>Strg</kbd>+<kbd>P</kbd>) ergibt ein aufgeräumtes Handout. Navigation und
+            Schaltflächen fallen dabei weg, Hinweise und Lösungen sind vollständig enthalten.</div>
         </details>
         <details>
           <summary>Wo finde ich Folien, Daten und Quellcode?</summary>
@@ -1768,6 +1789,7 @@ document.addEventListener("keydown", e=>{
   if (k === "g") { e.preventDefault(); glossarAuf(); }
   else if (k === "w") document.getElementById("werkbank").scrollIntoView({behavior:"smooth"});
   else if (k === "p") location.href = "praesentation.html";
+  else if (k === "f") location.href = "freigabe.html";
 });
 
 document.getElementById("yr").textContent = new Date().getFullYear();

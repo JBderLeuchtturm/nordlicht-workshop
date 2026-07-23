@@ -1,0 +1,755 @@
+{
+ "erzeugt": "2026-07-23",
+ "korpus": {
+  "dokumente": 12,
+  "chunks": 36
+ },
+ "modi": [
+  {
+   "id": "bm25",
+   "name": "BM25",
+   "unter": "Reine Stichwortsuche",
+   "skala": "BM25-Score"
+  },
+  {
+   "id": "dense",
+   "name": "Vektorsuche",
+   "unter": "Bedeutung statt Buchstaben",
+   "skala": "Kosinus"
+  },
+  {
+   "id": "hybrid",
+   "name": "Hybrid + RRF",
+   "unter": "Beide Listen fusioniert",
+   "skala": "RRF-Score"
+  },
+  {
+   "id": "advanced",
+   "name": "Advanced",
+   "unter": "Reranking + Metadatenfilter",
+   "skala": "Cross-Encoder"
+  }
+ ],
+ "fragen": [
+  {
+   "frage": "Wie viele Tage Homeoffice sind bei NordLicht erlaubt?",
+   "kurz": "Homeoffice",
+   "hinweis": "Die entscheidende Frage des Workshops. Achtet auf das Jahr der Quelle.",
+   "falle": true,
+   "ergebnisse": {
+    "bm25": {
+     "treffer": [
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#2",
+       "score": 5.5007,
+       "auszug": "An Tagen mit Team-Besprechungen vor Ort ist Homeoffice ausgeschlossen. Die Arbeitszeit im Homeoffice ist wie im Büro über das Zeiterfassungssystem zu…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#0",
+       "score": 4.6975,
+       "auszug": "Diese Regelung legt die Rahmenbedingungen für das Arbeiten von zu Hause fest. Mitarbeitende dürfen maximal zwei Tage pro Woche im Homeoffice arbeiten.…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#1",
+       "score": 4.1808,
+       "auszug": "Voraussetzung für Homeoffice ist ein dienstlicher Laptop mit eingerichtetem VPN-Zugang sowie ein geeigneter Arbeitsplatz in der Wohnung. Die Genehmigu…"
+      }
+     ],
+     "antwort": "Die Arbeitszeit im Homeoffice ist wie im Büro über das Zeiterfassungssystem zu dokumentieren.",
+     "quelle": {
+      "titel": "Homeoffice-Regelung (2022)",
+      "jahr": 2022,
+      "status": "archiviert"
+     }
+    },
+    "dense": {
+     "treffer": [
+      {
+       "titel": "Richtlinie Mobiles Arbeiten (2025)",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "mobiles-arbeiten-2025#0",
+       "score": 0.7187,
+       "auszug": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs. Diese Richtlin…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#0",
+       "score": 0.6702,
+       "auszug": "Diese Regelung legt die Rahmenbedingungen für das Arbeiten von zu Hause fest. Mitarbeitende dürfen maximal zwei Tage pro Woche im Homeoffice arbeiten.…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#2",
+       "score": 0.622,
+       "auszug": "An Tagen mit Team-Besprechungen vor Ort ist Homeoffice ausgeschlossen. Die Arbeitszeit im Homeoffice ist wie im Büro über das Zeiterfassungssystem zu…"
+      }
+     ],
+     "antwort": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs.",
+     "quelle": {
+      "titel": "Richtlinie Mobiles Arbeiten (2025)",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "hybrid": {
+     "treffer": [
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#2",
+       "score": 0.0323,
+       "auszug": "An Tagen mit Team-Besprechungen vor Ort ist Homeoffice ausgeschlossen. Die Arbeitszeit im Homeoffice ist wie im Büro über das Zeiterfassungssystem zu…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#0",
+       "score": 0.0323,
+       "auszug": "Diese Regelung legt die Rahmenbedingungen für das Arbeiten von zu Hause fest. Mitarbeitende dürfen maximal zwei Tage pro Woche im Homeoffice arbeiten.…"
+      },
+      {
+       "titel": "Richtlinie Mobiles Arbeiten (2025)",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "mobiles-arbeiten-2025#0",
+       "score": 0.0318,
+       "auszug": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs. Diese Richtlin…"
+      }
+     ],
+     "antwort": "Die Arbeitszeit im Homeoffice ist wie im Büro über das Zeiterfassungssystem zu dokumentieren.",
+     "quelle": {
+      "titel": "Homeoffice-Regelung (2022)",
+      "jahr": 2022,
+      "status": "archiviert"
+     }
+    },
+    "advanced": {
+     "treffer": [
+      {
+       "titel": "Richtlinie Mobiles Arbeiten (2025)",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "mobiles-arbeiten-2025#0",
+       "score": -1.174,
+       "auszug": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs. Diese Richtlin…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#0",
+       "score": -2.6832,
+       "auszug": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche. Der Urlaub ist grundsätzlich im laufenden Kalenderja…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#1",
+       "score": -2.6897,
+       "auszug": "Nicht genommener Resturlaub kann in das Folgejahr übertragen werden und muss bis zum 31. März des Folgejahres angetreten sein, andernfalls verfällt er…"
+      }
+     ],
+     "antwort": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs.",
+     "quelle": {
+      "titel": "Richtlinie Mobiles Arbeiten (2025)",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    }
+   }
+  },
+  {
+   "frage": "Was bedeutet der Fehlercode NL-410 im Kundenportal?",
+   "kurz": "Fehlercode NL-410",
+   "hinweis": "Ein exakter Code ohne semantischen Gehalt - hier spielt BM25 seine Staerke aus.",
+   "falle": false,
+   "ergebnisse": {
+    "bm25": {
+     "treffer": [
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 8.9098,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      },
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#0",
+       "score": 2.9347,
+       "auszug": "Über das Kundenportal my.nordlicht.example können Aufträge erfasst, Sendungen verfolgt und Rechnungen abgerufen werden. Die Sendungsverfolgung aktuali…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#1",
+       "score": 2.7307,
+       "auszug": "Die Servicestufe NL-STANDARD-72 garantiert die Zustellung innerhalb von 72 Stunden mit einer Zustellquote von 97,0 Prozent. Bei Unterschreitung beträg…"
+      }
+     ],
+     "antwort": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe.",
+     "quelle": {
+      "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "dense": {
+     "treffer": [
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 0.7995,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      },
+      {
+       "titel": "Reklamations- und Schadensprozess",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "reklamation-2025#0",
+       "score": 0.3486,
+       "auszug": "Beschädigte oder verlorene Sendungen sind innerhalb von sieben Kalendertagen nach Zustellung beziehungsweise geplantem Zustelldatum über das Kundenpor…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": 0.3199,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      }
+     ],
+     "antwort": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe.",
+     "quelle": {
+      "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "hybrid": {
+     "treffer": [
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 0.0328,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      },
+      {
+       "titel": "Reklamations- und Schadensprozess",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "reklamation-2025#0",
+       "score": 0.0318,
+       "auszug": "Beschädigte oder verlorene Sendungen sind innerhalb von sieben Kalendertagen nach Zustellung beziehungsweise geplantem Zustelldatum über das Kundenpor…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#1",
+       "score": 0.0315,
+       "auszug": "Die Servicestufe NL-STANDARD-72 garantiert die Zustellung innerhalb von 72 Stunden mit einer Zustellquote von 97,0 Prozent. Bei Unterschreitung beträg…"
+      }
+     ],
+     "antwort": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe.",
+     "quelle": {
+      "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "advanced": {
+     "treffer": [
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 9.0111,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      },
+      {
+       "titel": "Reklamations- und Schadensprozess",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "reklamation-2025#0",
+       "score": -5.241,
+       "auszug": "Beschädigte oder verlorene Sendungen sind innerhalb von sieben Kalendertagen nach Zustellung beziehungsweise geplantem Zustelldatum über das Kundenpor…"
+      },
+      {
+       "titel": "Richtlinie Mobiles Arbeiten (2025)",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "mobiles-arbeiten-2025#1",
+       "score": -6.2713,
+       "auszug": "Eine gesonderte Genehmigung ist nicht mehr erforderlich; die Aufteilung wird eigenverantwortlich im Team abgestimmt und im Teamkalender eingetragen. W…"
+      }
+     ],
+     "antwort": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe.",
+     "quelle": {
+      "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    }
+   }
+  },
+  {
+   "frage": "Krieg ich Kohle zurueck, wenn ein Paket kaputt geht?",
+   "kurz": "Umgangssprache",
+   "hinweis": "Kein einziges Wort steht so im Dokument - hier braucht es Bedeutung statt Buchstaben.",
+   "falle": false,
+   "ergebnisse": {
+    "bm25": {
+     "treffer": [
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#2",
+       "score": 3.7339,
+       "auszug": "Urlaubsanträge werden über das Personalportal gestellt und gelten als genehmigt, wenn die Führungskraft nicht innerhalb von fünf Arbeitstagen widerspr…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#1",
+       "score": 2.8166,
+       "auszug": "Voraussetzung für Homeoffice ist ein dienstlicher Laptop mit eingerichtetem VPN-Zugang sowie ein geeigneter Arbeitsplatz in der Wohnung. Die Genehmigu…"
+      },
+      {
+       "titel": "Preisblatt Zuschläge und Nebenkosten 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "preise-zuschlaege-2025#1",
+       "score": 2.0328,
+       "auszug": "Für Zustellungen auf die deutschen Nordseeinseln und Ostseeinseln fällt ein Inselzuschlag von 12 Euro je Sendung an. Straßenbenutzungsgebühren wie die…"
+      }
+     ],
+     "antwort": "Urlaubsanträge werden über das Personalportal gestellt und gelten als genehmigt, wenn die Führungskraft nicht innerhalb von fünf Arbeitstagen widerspricht.",
+     "quelle": {
+      "titel": "Betriebsvereinbarung Urlaub",
+      "jahr": 2024,
+      "status": "gültig"
+     }
+    },
+    "dense": {
+     "treffer": [
+      {
+       "titel": "Nachhaltigkeitsprogramm Fuhrpark 2030",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "nachhaltigkeit-2025#1",
+       "score": 0.2513,
+       "auszug": "Für die verbleibende Dieselflotte wird schrittweise der erneuerbare Kraftstoff HVO100 eingesetzt, der die Treibhausgasemissionen um bis zu 90 Prozent…"
+      },
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 0.2477,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": 0.2306,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      }
+     ],
+     "antwort": "Für die verbleibende Dieselflotte wird schrittweise der erneuerbare Kraftstoff HVO100 eingesetzt, der die Treibhausgasemissionen um bis zu 90 Prozent senkt.",
+     "quelle": {
+      "titel": "Nachhaltigkeitsprogramm Fuhrpark 2030",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "hybrid": {
+     "treffer": [
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 0.0315,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#2",
+       "score": 0.0164,
+       "auszug": "Urlaubsanträge werden über das Personalportal gestellt und gelten als genehmigt, wenn die Führungskraft nicht innerhalb von fünf Arbeitstagen widerspr…"
+      },
+      {
+       "titel": "Nachhaltigkeitsprogramm Fuhrpark 2030",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "nachhaltigkeit-2025#1",
+       "score": 0.0164,
+       "auszug": "Für die verbleibende Dieselflotte wird schrittweise der erneuerbare Kraftstoff HVO100 eingesetzt, der die Treibhausgasemissionen um bis zu 90 Prozent…"
+      }
+     ],
+     "antwort": "NL-201 kennzeichnet ein Zustellhindernis vor Ort, etwa einen geschlossenen Wareneingang.",
+     "quelle": {
+      "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "advanced": {
+     "treffer": [
+      {
+       "titel": "IT-Sicherheitsrichtlinie",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "it-sicherheit-2024#2",
+       "score": -7.2217,
+       "auszug": "Dienstliche Geräte sind bei Verlassen des Arbeitsplatzes zu sperren. Der Verlust eines Geräts ist innerhalb von 24 Stunden der IT-Hotline zu melden."
+      },
+      {
+       "titel": "Nachhaltigkeitsprogramm Fuhrpark 2030",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "nachhaltigkeit-2025#1",
+       "score": -7.3305,
+       "auszug": "Für die verbleibende Dieselflotte wird schrittweise der erneuerbare Kraftstoff HVO100 eingesetzt, der die Treibhausgasemissionen um bis zu 90 Prozent…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": -7.8482,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      }
+     ],
+     "antwort": "Dienstliche Geräte sind bei Verlassen des Arbeitsplatzes zu sperren.",
+     "quelle": {
+      "titel": "IT-Sicherheitsrichtlinie",
+      "jahr": 2024,
+      "status": "gültig"
+     }
+    }
+   }
+  },
+  {
+   "frage": "Welche Zustellquote garantiert die Servicestufe NL-EXPRESS-24?",
+   "kurz": "SLA-Zustellquote",
+   "hinweis": "Eine saubere Faktenfrage: So sieht es aus, wenn alles funktioniert.",
+   "falle": false,
+   "ergebnisse": {
+    "bm25": {
+     "treffer": [
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": 13.6744,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#1",
+       "score": 10.9805,
+       "auszug": "Die Servicestufe NL-STANDARD-72 garantiert die Zustellung innerhalb von 72 Stunden mit einer Zustellquote von 97,0 Prozent. Bei Unterschreitung beträg…"
+      },
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 4.0823,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      }
+     ],
+     "antwort": "Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb von 24 Stunden nach Abholung mit einer garantierten Zustellquote von 99,0 Prozent.",
+     "quelle": {
+      "titel": "Service Level Agreements – Übersicht 2025",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "dense": {
+     "treffer": [
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": 0.7805,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#1",
+       "score": 0.6765,
+       "auszug": "Die Servicestufe NL-STANDARD-72 garantiert die Zustellung innerhalb von 72 Stunden mit einer Zustellquote von 97,0 Prozent. Bei Unterschreitung beträg…"
+      },
+      {
+       "titel": "Reklamations- und Schadensprozess",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "reklamation-2025#1",
+       "score": 0.4585,
+       "auszug": "Nach Eingang der vollständigen Unterlagen prüft die Abteilung Kundenservice den Fall und entscheidet innerhalb von 14 Kalendertagen über die Erstattun…"
+      }
+     ],
+     "antwort": "Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb von 24 Stunden nach Abholung mit einer garantierten Zustellquote von 99,0 Prozent.",
+     "quelle": {
+      "titel": "Service Level Agreements – Übersicht 2025",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "hybrid": {
+     "treffer": [
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": 0.0328,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#1",
+       "score": 0.0323,
+       "auszug": "Die Servicestufe NL-STANDARD-72 garantiert die Zustellung innerhalb von 72 Stunden mit einer Zustellquote von 97,0 Prozent. Bei Unterschreitung beträg…"
+      },
+      {
+       "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "kundenportal-2025#1",
+       "score": 0.0315,
+       "auszug": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe. NL-41…"
+      }
+     ],
+     "antwort": "Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb von 24 Stunden nach Abholung mit einer garantierten Zustellquote von 99,0 Prozent.",
+     "quelle": {
+      "titel": "Service Level Agreements – Übersicht 2025",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    },
+    "advanced": {
+     "treffer": [
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#0",
+       "score": 10.8842,
+       "auszug": "NordLicht Logistik bietet drei Servicestufen für den nationalen Stückgutversand an. Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb…"
+      },
+      {
+       "titel": "Service Level Agreements – Übersicht 2025",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "sla-2025#1",
+       "score": 3.8867,
+       "auszug": "Die Servicestufe NL-STANDARD-72 garantiert die Zustellung innerhalb von 72 Stunden mit einer Zustellquote von 97,0 Prozent. Bei Unterschreitung beträg…"
+      },
+      {
+       "titel": "Reisekosten- und Spesenrichtlinie",
+       "jahr": 2023,
+       "status": "gültig",
+       "chunk": "spesen-2023#0",
+       "score": -3.8047,
+       "auszug": "Dienstreisen sind vor Antritt über das Personalportal zu beantragen. Bei Abwesenheit von mehr als acht Stunden wird eine Verpflegungspauschale von 14…"
+      }
+     ],
+     "antwort": "Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb von 24 Stunden nach Abholung mit einer garantierten Zustellquote von 99,0 Prozent.",
+     "quelle": {
+      "titel": "Service Level Agreements – Übersicht 2025",
+      "jahr": 2025,
+      "status": "gültig"
+     }
+    }
+   }
+  },
+  {
+   "frage": "Wie viele Urlaubstage stehen mir zu?",
+   "kurz": "Urlaubstage",
+   "hinweis": "Alltagsfrage aus der Personalabteilung - eindeutig beantwortbar.",
+   "falle": false,
+   "ergebnisse": {
+    "bm25": {
+     "treffer": [
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#0",
+       "score": 3.7593,
+       "auszug": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche. Der Urlaub ist grundsätzlich im laufenden Kalenderja…"
+      },
+      {
+       "titel": "Homeoffice-Regelung (2022)",
+       "jahr": 2022,
+       "status": "archiviert",
+       "chunk": "homeoffice-2022#2",
+       "score": 3.3573,
+       "auszug": "An Tagen mit Team-Besprechungen vor Ort ist Homeoffice ausgeschlossen. Die Arbeitszeit im Homeoffice ist wie im Büro über das Zeiterfassungssystem zu…"
+      },
+      {
+       "titel": "Unternehmensprofil und Standorte",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "standorte-2025#1",
+       "score": 2.8219,
+       "auszug": "Das Leistungsspektrum umfasst nationalen Stückguttransport, Lagerlogistik mit 45.000 Palettenstellplätzen sowie Zusatzleistungen wie Konfektionierung…"
+      }
+     ],
+     "antwort": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche.",
+     "quelle": {
+      "titel": "Betriebsvereinbarung Urlaub",
+      "jahr": 2024,
+      "status": "gültig"
+     }
+    },
+    "dense": {
+     "treffer": [
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#0",
+       "score": 0.6672,
+       "auszug": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche. Der Urlaub ist grundsätzlich im laufenden Kalenderja…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#1",
+       "score": 0.5438,
+       "auszug": "Nicht genommener Resturlaub kann in das Folgejahr übertragen werden und muss bis zum 31. März des Folgejahres angetreten sein, andernfalls verfällt er…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#2",
+       "score": 0.4502,
+       "auszug": "Urlaubsanträge werden über das Personalportal gestellt und gelten als genehmigt, wenn die Führungskraft nicht innerhalb von fünf Arbeitstagen widerspr…"
+      }
+     ],
+     "antwort": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche.",
+     "quelle": {
+      "titel": "Betriebsvereinbarung Urlaub",
+      "jahr": 2024,
+      "status": "gültig"
+     }
+    },
+    "hybrid": {
+     "treffer": [
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#0",
+       "score": 0.0328,
+       "auszug": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche. Der Urlaub ist grundsätzlich im laufenden Kalenderja…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#1",
+       "score": 0.0318,
+       "auszug": "Nicht genommener Resturlaub kann in das Folgejahr übertragen werden und muss bis zum 31. März des Folgejahres angetreten sein, andernfalls verfällt er…"
+      },
+      {
+       "titel": "Richtlinie Mobiles Arbeiten (2025)",
+       "jahr": 2025,
+       "status": "gültig",
+       "chunk": "mobiles-arbeiten-2025#0",
+       "score": 0.0303,
+       "auszug": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs. Diese Richtlin…"
+      }
+     ],
+     "antwort": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche.",
+     "quelle": {
+      "titel": "Betriebsvereinbarung Urlaub",
+      "jahr": 2024,
+      "status": "gültig"
+     }
+    },
+    "advanced": {
+     "treffer": [
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#0",
+       "score": 1.7253,
+       "auszug": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche. Der Urlaub ist grundsätzlich im laufenden Kalenderja…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#1",
+       "score": -1.2532,
+       "auszug": "Nicht genommener Resturlaub kann in das Folgejahr übertragen werden und muss bis zum 31. März des Folgejahres angetreten sein, andernfalls verfällt er…"
+      },
+      {
+       "titel": "Betriebsvereinbarung Urlaub",
+       "jahr": 2024,
+       "status": "gültig",
+       "chunk": "urlaub-2024#2",
+       "score": -2.6036,
+       "auszug": "Urlaubsanträge werden über das Personalportal gestellt und gelten als genehmigt, wenn die Führungskraft nicht innerhalb von fünf Arbeitstagen widerspr…"
+      }
+     ],
+     "antwort": "Alle Mitarbeitenden haben Anspruch auf 30 Urlaubstage pro Kalenderjahr bei einer Fünf-Tage-Woche.",
+     "quelle": {
+      "titel": "Betriebsvereinbarung Urlaub",
+      "jahr": 2024,
+      "status": "gültig"
+     }
+    }
+   }
+  }
+ ]
+}

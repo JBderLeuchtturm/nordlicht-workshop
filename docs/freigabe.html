@@ -1,0 +1,404 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Freigabe-Prüfung WA-2026 · NordLicht Logistik</title>
+<meta name="description" content="Abnahme des Wissensassistenten: Sechs echte Antworten prüfen und entscheiden, ob der Assistent live gehen darf.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B2545'/%3E%3Cpath d='M12 44 C22 20 42 20 52 36' stroke='%232EC4B6' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --night:#071627; --navy:#0B2545; --navy2:#13315C;
+  --teal:#1C7293; --aurora:#2EC4B6; --aurora-lt:#9BE3D8;
+  --paper:#F3F6F9; --white:#FFFFFF; --ink:#14213D; --body-ink:#33455C; --mute:#61738A;
+  --line:#DCE5EC; --line-soft:#EAF0F5;
+  --sand:#C9954A; --sand-bg:#FBF3E4;
+  --warn:#D9703A; --warn-bg:#FBEBE0; --warn-dk:#8A4620;
+  --green:#2F8F5B; --green-bg:#E6F2EB;
+  --disp:"Newsreader",Georgia,serif;
+  --ui:"Public Sans",system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",Consolas,monospace;
+  --r:10px;
+}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:var(--ui);background:var(--paper);color:var(--body-ink);line-height:1.6;
+  min-height:100vh;display:flex;flex-direction:column}
+button{font-family:var(--ui);cursor:pointer}
+:focus-visible{outline:2.5px solid var(--aurora);outline-offset:2px;border-radius:4px}
+.wrap{max-width:940px;margin:0 auto;padding:0 24px;width:100%}
+
+/* Kopf */
+.top{background:var(--navy);color:#fff;flex:none}
+.top .wrap{display:flex;align-items:center;gap:14px;height:64px}
+.brand{display:flex;align-items:center;gap:11px;text-decoration:none;color:#fff;margin-right:auto}
+.mark{width:38px;height:38px;border-radius:9px;background:var(--night);display:grid;place-items:center;
+  border:1px solid rgba(255,255,255,.1);flex:none}
+.bname{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.05}
+.bname small{display:block;font-family:var(--ui);font-size:9.5px;letter-spacing:.19em;
+  color:#8DA3BC;text-transform:uppercase;font-weight:500;margin-top:2px}
+.zurueck{color:#C3D3E3;text-decoration:none;font-size:13.5px;border:1px solid rgba(255,255,255,.22);
+  border-radius:7px;padding:7px 13px;white-space:nowrap}
+.zurueck:hover{border-color:var(--aurora-lt);color:var(--aurora-lt)}
+.aktenzeichen{font-family:var(--mono);font-size:11.5px;color:#7E93AC}
+@media(max-width:700px){.aktenzeichen{display:none}}
+
+main{flex:1;padding:34px 0 60px}
+
+/* Startbildschirm */
+.intro{background:var(--white);border:1px solid var(--line);border-radius:var(--r);padding:34px 36px}
+.stempel{display:inline-flex;align-items:center;gap:8px;font-family:var(--mono);font-size:11.5px;
+  letter-spacing:.09em;text-transform:uppercase;color:var(--sand);border:1.5px solid #E6D3AE;
+  background:var(--sand-bg);border-radius:6px;padding:5px 11px}
+.intro h1{font-family:var(--disp);font-size:clamp(29px,4.4vw,40px);font-weight:600;color:var(--ink);
+  line-height:1.14;margin:15px 0 12px;letter-spacing:-.01em}
+.intro p{max-width:62ch}
+.intro .regeln{margin:22px 0 26px;border-top:1px solid var(--line-soft)}
+.intro .regeln div{display:grid;grid-template-columns:26px 1fr;gap:13px;padding:13px 0;
+  border-bottom:1px solid var(--line-soft);font-size:14.5px}
+.intro .regeln span{font-family:var(--mono);font-size:12px;color:var(--teal);padding-top:2px}
+.intro .regeln b{color:var(--ink)}
+.los{background:var(--aurora);border:none;color:#062B28;border-radius:8px;padding:14px 30px;
+  font-size:16px;font-weight:600}
+.los:hover{background:#25B0A3}
+
+/* Fortschrittspunkte */
+.dots{display:flex;gap:7px;align-items:center;margin-bottom:16px}
+.dots i{width:100%;height:5px;border-radius:99px;background:#DCE5EC;flex:1}
+.dots i.done{background:var(--teal)}
+.dots i.now{background:var(--aurora)}
+.zaehler{font-family:var(--mono);font-size:12px;color:var(--mute);white-space:nowrap;margin-left:6px}
+
+/* Ticket */
+.karte{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.karte>header{padding:16px 26px;border-bottom:1px solid var(--line);background:var(--paper);
+  display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;align-items:center}
+.karte>header .kanal{font-size:12.5px;color:var(--mute)}
+.karte>header .nr{font-family:var(--mono);font-size:11.5px;color:var(--teal)}
+.frageblock{padding:26px 26px 6px}
+.rolle{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.frage{font-family:var(--disp);font-size:clamp(20px,2.8vw,25px);font-weight:600;color:var(--ink);
+  line-height:1.28;margin-top:7px}
+.antwortblock{padding:20px 26px 26px}
+.blase{background:var(--navy);color:#E2ECF6;border-radius:4px 14px 14px 14px;padding:18px 22px;
+  font-size:16px;line-height:1.6;position:relative}
+.blase .wer{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--aurora-lt);
+  font-weight:700;margin-bottom:8px}
+.quelle{display:flex;gap:9px;align-items:center;flex-wrap:wrap;font-size:12.5px;color:var(--mute);
+  margin-top:12px;padding-left:4px}
+.quelle b{color:var(--ink);font-weight:600}
+.stat{font-size:10.5px;font-weight:700;border-radius:4px;padding:2px 8px;background:var(--green-bg);color:var(--green)}
+.wahl{display:grid;grid-template-columns:1fr 1fr;gap:13px;padding:0 26px 26px}
+@media(max-width:600px){.wahl{grid-template-columns:1fr}}
+.wahl button{border-radius:9px;padding:17px 18px;font-size:15.5px;font-weight:600;border:2px solid;
+  text-align:left;line-height:1.35;transition:transform .12s,box-shadow .12s}
+.wahl button small{display:block;font-weight:400;font-size:12.5px;opacity:.82;margin-top:3px}
+.wahl button:hover{transform:translateY(-2px)}
+.ja{background:var(--green-bg);border-color:#B9DCC7;color:#1F6B41}
+.ja:hover{border-color:var(--green);box-shadow:0 6px 16px rgba(47,143,91,.18)}
+.nein{background:var(--warn-bg);border-color:#EFD2BC;color:var(--warn-dk)}
+.nein:hover{border-color:var(--warn);box-shadow:0 6px 16px rgba(217,112,58,.18)}
+
+/* Auflösung */
+.loesung{display:none;border-top:1px solid var(--line)}
+.loesung.on{display:block}
+.verdikt{padding:20px 26px;display:grid;grid-template-columns:auto 1fr;gap:15px;align-items:start}
+.verdikt.richtig{background:var(--green-bg)}
+.verdikt.falsch{background:var(--warn-bg)}
+.vsym{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;flex:none;
+  font-family:var(--disp);font-size:19px;font-weight:600;color:#fff}
+.verdikt.richtig .vsym{background:var(--green)}
+.verdikt.falsch .vsym{background:var(--warn)}
+.verdikt h3{font-family:var(--disp);font-size:19px;font-weight:600;color:var(--ink);line-height:1.25}
+.verdikt p{font-size:14.5px;margin-top:6px;max-width:70ch}
+.verdikt.richtig p{color:#2A5540}
+.verdikt.falsch p{color:#7A4426}
+.lehre{padding:17px 26px;background:var(--navy);color:#CFDDEB;font-size:14px;
+  display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start}
+.lehre b{color:var(--aurora-lt);display:block;font-size:10.5px;letter-spacing:.13em;
+  text-transform:uppercase;margin-bottom:4px}
+.weiter{padding:18px 26px;display:flex;justify-content:flex-end;background:var(--white)}
+.weiter button{background:var(--navy);border:none;color:#fff;border-radius:8px;padding:12px 26px;
+  font-size:15px;font-weight:600}
+.weiter button:hover{background:var(--navy2)}
+
+/* Abschluss */
+.ende{background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.ende .kopf{background:var(--night);color:#fff;padding:38px 36px;position:relative;overflow:hidden}
+.veil{position:absolute;left:-15%;top:-45%;width:130%;height:150%;filter:blur(46px);opacity:.42;
+  background:linear-gradient(100deg,transparent 10%,rgba(46,196,182,.6) 38%,rgba(28,114,147,.4) 66%,transparent 92%)}
+.ende .kopf>*{position:relative}
+.punkte{font-family:var(--disp);font-size:60px;font-weight:600;line-height:1;color:var(--aurora-lt)}
+.punkte small{font-size:23px;color:#7E93AC}
+.ende h2{font-family:var(--disp);font-size:27px;font-weight:600;margin:14px 0 8px}
+.ende .kopf p{color:#BFD0E2;max-width:60ch;font-size:15.5px}
+.ende .rumpf{padding:30px 36px 36px}
+.ende h3{font-family:var(--disp);font-size:20px;color:var(--ink);margin-bottom:9px}
+.ende .rumpf p{max-width:68ch;margin-bottom:15px}
+.bilanz{list-style:none;margin:18px 0 26px;border-top:1px solid var(--line-soft)}
+.bilanz li{display:grid;grid-template-columns:26px 1fr auto;gap:13px;padding:11px 0;
+  border-bottom:1px solid var(--line-soft);font-size:14.5px;align-items:center}
+.bilanz .n{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.bilanz .erg{font-size:11.5px;font-weight:700;border-radius:5px;padding:3px 10px;white-space:nowrap}
+.bilanz .erg.r{background:var(--green-bg);color:var(--green)}
+.bilanz .erg.f{background:var(--warn-bg);color:var(--warn-dk)}
+.merksatz{background:var(--navy);color:#DCE7F2;border-radius:var(--r);padding:26px 30px;
+  border-left:4px solid var(--aurora);margin:8px 0 24px}
+.merksatz p{font-family:var(--disp);font-size:21px;line-height:1.4;color:#fff;max-width:44ch}
+.merksatz span{display:block;font-family:var(--ui);font-size:14px;color:#A9BDD3;margin-top:11px;max-width:62ch}
+.frage-an-alle{border:1.5px dashed var(--line);border-radius:var(--r);padding:22px 26px;background:var(--paper)}
+.frage-an-alle b{display:block;font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;
+  color:var(--teal);margin-bottom:7px}
+.frage-an-alle p{font-family:var(--disp);font-size:20px;color:var(--ink);line-height:1.35;margin:0}
+.aktionen{display:flex;gap:11px;flex-wrap:wrap;margin-top:26px}
+.aktionen button,.aktionen a{border-radius:8px;padding:12px 22px;font-size:14.5px;font-weight:600;
+  text-decoration:none;border:1.5px solid var(--line);background:var(--white);color:var(--navy)}
+.aktionen button:hover,.aktionen a:hover{border-color:var(--teal);color:var(--teal)}
+.hinweisbox{display:none;background:var(--warn-bg);border:1px solid #EFD8C7;color:#7A4A26;
+  border-radius:var(--r);padding:18px 22px;font-size:14.5px}
+.hinweisbox code{font-family:var(--mono);font-size:12.5px;background:#fff;border:1px solid #EFD8C7;
+  border-radius:4px;padding:1px 6px}
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <span class="mark" aria-hidden="true">
+        <svg viewBox="0 0 64 64" width="25" height="25"><path d="M12 44 C22 20 42 20 52 36" stroke="#2EC4B6" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M12 52 C24 32 40 32 52 46" stroke="#1C7293" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+      </span>
+      <span class="bname">NordLicht<small>Logistik GmbH</small></span>
+    </a>
+    <span class="aktenzeichen">Vorgang WA-2026 / Abnahme</span>
+    <a class="zurueck" href="index.html">Zurück zum Portal</a>
+  </div>
+</header>
+
+<main>
+  <div class="wrap">
+
+    <div class="hinweisbox" id="hinweis">
+      <strong>Daten fehlen noch.</strong> Die Freigabe-Prüfung braucht <code>docs/assets/freigabe.json</code>.
+      Einmal <code>python src_build/export_freigabe_daten.py</code> ausführen, committen, pushen.
+    </div>
+
+    <!-- Start -->
+    <section class="intro" id="intro">
+      <span class="stempel">Vorgang WA-2026 · Abnahme steht aus</span>
+      <h1>Der Assistent ist fertig.<br>Geht er live?</h1>
+      <p>Der Prototyp läuft seit heute Morgen im Testbetrieb: Hybrid Search, Cross-Encoder-Reranking
+        und der Metadaten-Filter, den ihr in Übung 4 gebaut habt. Bevor die Geschäftsführung ihn
+        freigibt, will sie eine Stichprobe sehen.</p>
+      <p>Sechs echte Anfragen aus dem Testbetrieb, sechs echte Antworten des Assistenten.
+        Ihr entscheidet bei jeder: rausschicken oder anhalten.</p>
+      <div class="regeln">
+        <div><span>01</span><div><b>Antwort und Quelle lesen.</b> Beides steht so im System, nichts ist erfunden.</div></div>
+        <div><span>02</span><div><b>Entscheiden.</b> Würdet ihr diese Antwort einem Kunden oder einer Kollegin schicken?</div></div>
+        <div><span>03</span><div><b>Auflösung.</b> Nach jeder Entscheidung seht ihr, was der Fall wirklich zeigt.</div></div>
+      </div>
+      <button class="los" onclick="start()">Prüfung beginnen</button>
+    </section>
+
+    <!-- Fall -->
+    <section id="fall" hidden>
+      <div class="dots" id="dots"></div>
+      <article class="karte">
+        <header>
+          <span class="kanal" id="kanal"></span>
+          <span class="nr" id="nr"></span>
+        </header>
+        <div class="frageblock">
+          <div class="rolle">Anfrage</div>
+          <p class="frage" id="frage"></p>
+        </div>
+        <div class="antwortblock">
+          <div class="blase">
+            <div class="wer">Antwort des Assistenten</div>
+            <span id="antwort"></span>
+          </div>
+          <div class="quelle">Beleg: <b id="qtitel"></b><span id="qjahr"></span><span class="stat" id="qstat"></span></div>
+        </div>
+        <div class="wahl" id="wahl">
+          <button class="ja" onclick="entscheide('freigeben')">Rausschicken
+            <small>Die Antwort ist korrekt und belegt</small></button>
+          <button class="nein" onclick="entscheide('blockieren')">Anhalten
+            <small>Das darf so nicht raus</small></button>
+        </div>
+        <div class="loesung" id="loesung">
+          <div class="verdikt" id="verdikt">
+            <span class="vsym" id="vsym"></span>
+            <div>
+              <h3 id="vtitel"></h3>
+              <p id="vtext"></p>
+            </div>
+          </div>
+          <div class="lehre">
+            <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6" stroke-width="1.9" stroke-linecap="round" aria-hidden="true" style="margin-top:3px;flex:none"><path d="M9 18h6M10 22h4"/><path d="M12 2a7 7 0 0 0-4 12.7V17h8v-2.3A7 7 0 0 0 12 2z"/></svg>
+            <div><b>Was der Fall zeigt</b><span id="ltext"></span></div>
+          </div>
+          <div class="weiter"><button id="weiterbtn" onclick="weiter()">Nächster Fall</button></div>
+        </div>
+      </article>
+    </section>
+
+    <!-- Abschluss -->
+    <section class="ende" id="ende" hidden>
+      <div class="kopf">
+        <div class="veil" aria-hidden="true"></div>
+        <div class="punkte"><span id="score">0</span><small> von 6</small></div>
+        <h2 id="verdiktkopf"></h2>
+        <p id="verdikttext"></p>
+      </div>
+      <div class="rumpf">
+        <h3>Eure Stichprobe im Überblick</h3>
+        <ul class="bilanz" id="bilanz"></ul>
+
+        <div class="merksatz">
+          <p>Euer Filter hat genau einen dieser Fehler gelöst. Die anderen drei hat er nicht einmal berührt.</p>
+          <span>Der Metadaten-Filter fängt veraltete Dokumente. Er fängt keine Fragen, deren Antwort
+            gar nicht im Korpus steht, und keine, die eine falsche Annahme mitbringen. Dafür gibt es
+            keine Zeile Code, die man nachträglich einbaut.</span>
+        </div>
+
+        <h3>Und jetzt?</h3>
+        <p>Hit@3 und MRR aus Notebook 04 hätten bei keinem der drei verbliebenen Fälle Alarm geschlagen.
+          Beide messen, ob ein passendes Dokument oben steht. Ob die Antwort stimmt, messen sie nicht.
+          Genau deshalb braucht ein Gold-Testset erwartete Antworten und nicht nur relevante Dokumente.</p>
+
+        <div class="frage-an-alle">
+          <b>Zur Diskussion</b>
+          <p>Ihr habt zwei Stunden lang genau über diese Fehler gesprochen. Eure Kolleginnen im
+            Kundenservice haben das nicht. Würdet ihr den Assistenten trotzdem live schalten,
+            und unter welcher Bedingung?</p>
+        </div>
+
+        <div class="aktionen">
+          <button onclick="neustart()">Noch einmal</button>
+          <a href="index.html#werkbank">Zurück zur Werkbank</a>
+          <a href="praesentation.html">Zum Foliensatz</a>
+        </div>
+      </div>
+    </section>
+
+  </div>
+</main>
+
+<script>
+let DATEN = null, i = 0, antworten = [];
+
+fetch("assets/freigabe.json")
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => { DATEN = d; })
+  .catch(() => {
+    document.getElementById("hinweis").style.display = "block";
+    document.getElementById("intro").style.display = "none";
+  });
+
+const $ = id => document.getElementById(id);
+const sicher = s => String(s).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+
+function start(){
+  if (!DATEN) return;
+  i = 0; antworten = [];
+  $("intro").hidden = true;
+  $("fall").hidden = false;
+  zeige();
+}
+
+function zeige(){
+  const f = DATEN.faelle[i];
+  $("dots").innerHTML = DATEN.faelle.map((_, x) =>
+    `<i class="${x < i ? "done" : (x === i ? "now" : "")}"></i>`).join("")
+    + `<span class="zaehler">Fall ${i+1} von ${DATEN.faelle.length}</span>`;
+  $("kanal").textContent = f.kanal;
+  $("nr").textContent = "WA-2026-" + String(f.nr).padStart(3, "0");
+  $("frage").textContent = "\u201e" + f.frage + "\u201c";
+  $("antwort").textContent = f.antwort;
+  $("qtitel").textContent = f.quelle.titel;
+  $("qjahr").textContent = "(" + f.quelle.jahr + ")";
+  $("qstat").textContent = f.quelle.status;
+  $("wahl").style.display = "";
+  $("loesung").classList.remove("on");
+  $("weiterbtn").textContent = (i === DATEN.faelle.length - 1) ? "Auswertung ansehen" : "N\u00e4chster Fall";
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function entscheide(wahl){
+  const f = DATEN.faelle[i];
+  const richtig = wahl === f.urteil;
+  antworten.push({nr: f.nr, frage: f.frage, richtig, urteil: f.urteil});
+
+  $("wahl").style.display = "none";
+  $("verdikt").className = "verdikt " + (richtig ? "richtig" : "falsch");
+  $("vsym").textContent = richtig ? "\u2713" : "!";
+  $("vtitel").textContent = richtig
+    ? (f.urteil === "freigeben" ? "Richtig. Das darf raus." : "Richtig. Das h\u00e4tte Schaden angerichtet.")
+    : (f.urteil === "freigeben" ? "Zu vorsichtig. Diese Antwort ist korrekt."
+                                : "Diese Antwort h\u00e4tte so nicht rausgehen d\u00fcrfen.");
+  $("vtext").textContent = f.warum;
+  $("ltext").textContent = f.lehre;
+  $("loesung").classList.add("on");
+  $("loesung").scrollIntoView({behavior: "smooth", block: "nearest"});
+}
+
+function weiter(){
+  i++;
+  if (i < DATEN.faelle.length) { zeige(); return; }
+  $("fall").hidden = true;
+  auswertung();
+}
+
+function auswertung(){
+  const treffer = antworten.filter(a => a.richtig).length;
+  const gesamt = antworten.length;
+  $("score").textContent = treffer;
+  document.querySelector(".punkte small").textContent = " von " + gesamt;
+
+  let kopf, text;
+  if (treffer === gesamt) {
+    kopf = "Vollst\u00e4ndig. Ihr habt jeden Fall richtig eingeordnet.";
+    text = "Das ist st\u00e4rker, als es klingt: Vier der sechs Antworten waren sprachlich einwandfrei "
+         + "und mit g\u00fcltiger Quelle belegt. Ihr habt trotzdem gepr\u00fcft, was drinsteht.";
+  } else if (treffer >= gesamt - 2) {
+    kopf = "Knapp daneben ist auch daneben.";
+    text = "Jede durchgewinkte Fehlantwort geht an eine echte Person. Und ihr hattet zwei Stunden "
+         + "Vorlauf, in denen es um genau diese Fehler ging.";
+  } else {
+    kopf = "Und ihr wusstet, worauf ihr achten m\u00fcsst.";
+    text = "Alle sechs Antworten waren fl\u00fcssig formuliert und mit Quelle belegt. Genau das macht "
+         + "sie gef\u00e4hrlich: Sie sehen alle gleich vertrauensw\u00fcrdig aus.";
+  }
+  $("verdiktkopf").textContent = kopf;
+  $("verdikttext").textContent = text;
+
+  $("bilanz").innerHTML = antworten.map(a => `
+    <li>
+      <span class="n">${String(a.nr).padStart(2, "0")}</span>
+      <span>${sicher(a.frage)}</span>
+      <span class="erg ${a.richtig ? "r" : "f"}">${a.richtig ? "richtig eingeordnet" : "danebengelegen"}</span>
+    </li>`).join("");
+
+  $("ende").hidden = false;
+  window.scrollTo({top: 0, behavior: "smooth"});
+}
+
+function neustart(){
+  $("ende").hidden = true;
+  start();
+}
+
+document.addEventListener("keydown", e => {
+  if ($("fall").hidden) return;
+  if ($("loesung").classList.contains("on")) {
+    if (e.key === "Enter" || e.key === " ") { e.preventDefault(); weiter(); }
+    return;
+  }
+  if (e.key === "1" || e.key.toLowerCase() === "j") entscheide("freigeben");
+  if (e.key === "2" || e.key.toLowerCase() === "n") entscheide("blockieren");
+});
+</script>
+</body>
+</html>

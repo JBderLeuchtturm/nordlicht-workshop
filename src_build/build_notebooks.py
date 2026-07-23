@@ -20,9 +20,9 @@ START = "# === LÖSUNG ==="
 END = "# === ENDE LÖSUNG ==="
 
 TODO_LINES = [
-    "# ✏️ TODO: Implementiert hier eure Lösung (siehe Aufgabenstellung oben).",
-    "#          Die ✅-Selbsttest-Zelle weiter unten verrät euch, ob alles stimmt.",
-    'raise NotImplementedError("Übung noch nicht gelöst — ersetzt diesen Block durch euren Code.")',
+    "# TODO: Implementiert hier eure Lösung (siehe Aufgabenstellung oben).",
+    "#       Die Selbsttest-Zelle weiter unten verrät euch, ob alles stimmt.",
+    'raise NotImplementedError("Übung noch nicht gelöst. Ersetzt diesen Block durch euren Code.")',
 ]
 
 QUELLEN = [

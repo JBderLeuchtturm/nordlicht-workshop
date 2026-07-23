@@ -1,0 +1,95 @@
+{
+ "erzeugt": "2026-07-23",
+ "faelle": [
+  {
+   "nr": 1,
+   "frage": "Welche Zustellquote garantiert die Servicestufe NL-EXPRESS-24?",
+   "kanal": "Kundenservice · E-Mail",
+   "antwort": "Die Servicestufe NL-EXPRESS-24 garantiert die Zustellung innerhalb von 24 Stunden nach Abholung mit einer garantierten Zustellquote von 99,0 Prozent.",
+   "quelle": {
+    "titel": "Service Level Agreements – Übersicht 2025",
+    "jahr": 2025,
+    "status": "gültig",
+    "chunk": "sla-2025#0"
+   },
+   "urteil": "freigeben",
+   "warum": "Die Zahl steht genau so im SLA-Dokument von 2025, die Quelle ist gültig. So soll der Assistent arbeiten.",
+   "lehre": "Bei klaren Faktenfragen mit eindeutigem Beleg ist die Pipeline verlässlich."
+  },
+  {
+   "nr": 2,
+   "frage": "Wie viele Tage Homeoffice sind bei NordLicht erlaubt?",
+   "kanal": "Personalabteilung · Chat",
+   "antwort": "Mitarbeitende in verwaltenden Funktionen können bis zu drei Tage pro Woche ortsflexibel arbeiten, etwa von zu Hause oder von unterwegs.",
+   "quelle": {
+    "titel": "Richtlinie Mobiles Arbeiten (2025)",
+    "jahr": 2025,
+    "status": "gültig",
+    "chunk": "mobiles-arbeiten-2025#0"
+   },
+   "urteil": "freigeben",
+   "warum": "Genau diese Frage ging vorhin schief. Euer Metadaten-Filter aus Übung 4 hält die archivierte Regelung von 2022 jetzt zurück, geantwortet wird aus der gültigen Richtlinie von 2025.",
+   "lehre": "Wer hier reflexhaft blockiert hat, hat das Muster erkannt statt den Fall geprüft. Auch das ist ein Fehler."
+  },
+  {
+   "nr": 3,
+   "frage": "Was kostet die Zustellung einer Sendung nach Norwegen?",
+   "kanal": "Vertrieb · Kundenportal",
+   "antwort": "Für Zustellungen auf die deutschen Nordseeinseln und Ostseeinseln fällt ein Inselzuschlag von 12 Euro je Sendung an.",
+   "quelle": {
+    "titel": "Preisblatt Zuschläge und Nebenkosten 2025",
+    "jahr": 2025,
+    "status": "gültig",
+    "chunk": "preise-zuschlaege-2025#1"
+   },
+   "urteil": "blockieren",
+   "warum": "Der Korpus kennt nur nationalen Stückgutversand und Zuschläge für deutsche Inseln. Zu Norwegen steht nirgends etwas. Die Antwort nennt trotzdem einen konkreten Betrag.",
+   "lehre": "Falsche Prämisse in der Frage. Kein Retrieval-Verfahren prüft, ob die Frage überhaupt zum Zuständigkeitsbereich passt."
+  },
+  {
+   "nr": 4,
+   "frage": "Was bedeutet der Fehlercode NL-503 im Kundenportal?",
+   "kanal": "IT-Support · Ticket",
+   "antwort": "Häufige Fehlercodes bei der Auftragserfassung: NL-503 bedeutet, dass die Sendungsdaten unvollständig sind, zum Beispiel fehlende Gewichtsangabe.",
+   "quelle": {
+    "titel": "Handbuch Kundenportal und Sendungsverfolgung",
+    "jahr": 2025,
+    "status": "gültig",
+    "chunk": "kundenportal-2025#1"
+   },
+   "urteil": "freigeben",
+   "warum": "Ein exakter Code ohne semantischen Gehalt. Genau dafür habt ihr BM25 mit ins Boot geholt, und es funktioniert.",
+   "lehre": "Hybrid Search zahlt sich bei Codes, Produktnamen und Paragraphen aus."
+  },
+  {
+   "nr": 5,
+   "frage": "Gibt es bei NordLicht einen Betriebskindergarten?",
+   "kanal": "Bewerbung · Kontaktformular",
+   "antwort": "Die NordLicht Logistik GmbH ist ein mittelständischer Stückgut- und Kontraktlogistiker mit Hauptsitz in Hamburg.",
+   "quelle": {
+    "titel": "Unternehmensprofil und Standorte",
+    "jahr": 2025,
+    "status": "gültig",
+    "chunk": "standorte-2025#0"
+   },
+   "urteil": "blockieren",
+   "warum": "Im gesamten Korpus steht nichts zu Kinderbetreuung. Der Assistent liefert trotzdem einen Absatz mit Quellenangabe.",
+   "lehre": "Der Assistent sagt nie „weiss ich nicht“. Er gibt immer das Ähnlichste zurück, das er finden kann."
+  },
+  {
+   "nr": 6,
+   "frage": "Bekomme ich Geld zurück, wenn meine Sendung zwei Tage zu spät ankommt?",
+   "kanal": "Kundenservice · E-Mail",
+   "antwort": "Bei anerkannten Schäden erfolgt die Erstattung auf das hinterlegte Konto des Auftraggebers.",
+   "quelle": {
+    "titel": "Reklamations- und Schadensprozess",
+    "jahr": 2025,
+    "status": "gültig",
+    "chunk": "reklamation-2025#2"
+   },
+   "urteil": "blockieren",
+   "warum": "Der Reklamationsprozess regelt Schäden und Verluste, nicht Verspätungen. Die Antwort klingt wie eine Erstattungszusage, obwohl NordLicht so etwas nirgends zugesagt hat.",
+   "lehre": "Das ist der Air-Canada-Fall in klein: eine erfundene Zusage, formuliert wie eine Auskunft, mit korrekter Quellenangabe darunter."
+  }
+ ]
+}

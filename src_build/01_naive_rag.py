@@ -4,7 +4,7 @@
 #   <div style="font-size:11px;letter-spacing:2.5px;color:#9BE3D8;font-weight:700">NORDLICHT LOGISTIK · PROJEKT WISSENSASSISTENT</div>
 #   <div style="font-size:27px;font-weight:700;margin-top:7px;line-height:1.2">Notebook 01 · Naive RAG</div>
 #   <div style="color:#C7D4E3;font-size:14px;margin-top:7px">Die Basis-Pipeline: Chunking → Embeddings → Vektorsuche</div>
-#   <div style="color:#7E93AC;font-size:12.5px;margin-top:12px">Workshop RAG Advanced · WDSKI23A · DHBW Mannheim &nbsp;·&nbsp; ⏱ ~15 min · Übung 1</div>
+#   <div style="color:#7E93AC;font-size:12.5px;margin-top:12px">Workshop RAG Advanced · WDSKI23A · DHBW Mannheim &nbsp;·&nbsp; ca. 15 min · Übung 1</div>
 # </div>
 #
 # **Workshop RAG Advanced · WDSKI23A · DHBW Mannheim**
@@ -13,19 +13,19 @@
 # Der Kundenservice und die Personalabteilung ertrinken in Rückfragen, deren Antworten
 # längst in internen Dokumenten stehen: SLAs, Richtlinien, Preisblätter, Handbücher.
 #
-# **Auftrag:** Ein Assistent, der Fragen direkt aus diesen Dokumenten beantwortet — eine
+# **Auftrag:** Ein Assistent, der Fragen direkt aus diesen Dokumenten beantwortet: eine
 # RAG-Pipeline (Retrieval-Augmented Generation).
 #
 # In diesem Notebook baut ihr die **naive** Variante: Chunking → Embeddings → Vektorsuche → Antwort.
-# In den Notebooks 2 und 3 werdet ihr sehen, wo sie versagt — und sie Schritt für Schritt aufrüsten.
+# In den Notebooks 2 und 3 werdet ihr sehen, wo sie versagt, und werdet sie Schritt für Schritt aufrüsten.
 #
-# > ⏱️ ca. 20 Minuten · Übung 1 ist von euch zu lösen (`# TODO`).
+# > Dauer ca. 20 Minuten · Übung 1 ist von euch zu lösen (`# TODO`).
 
 # %% [markdown]
 # ## 0 · Setup
 #
 # Läuft in **Google Colab** (empfohlen, nichts zu installieren außer zwei Paketen) oder lokal.
-# Alles ist Open Source und kostenlos — keine API-Keys, keine Accounts bei Anbietern nötig.
+# Alles ist Open Source und kostenlos. API-Keys oder Accounts bei Anbietern braucht ihr nicht.
 
 # %%
 # %pip install -q sentence-transformers rank_bm25
@@ -51,8 +51,8 @@ PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffe
 def fortschritt(kennung, text=""):
     """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
     if PORTAL:
-        zusatz = f" \u2014 {text}" if text else ""
-        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        zusatz = f": {text}" if text else ""
+        print(f"\nIm Portal abhaken{zusatz}:")
         print(f"   {PORTAL}/?fertig={kennung}")
 
 
@@ -75,24 +75,24 @@ def lade_json(dateiname):
 
 korpus = lade_json("nordlicht_corpus.json")
 dokumente = korpus["dokumente"]
-print(f"{len(dokumente)} Dokumente geladen — {korpus['unternehmen']}")
+print(f"{len(dokumente)} Dokumente geladen: {korpus['unternehmen']}")
 for dok in dokumente:
     print(f"  [{dok['status']:>10}] {dok['jahr']} · {dok['titel']}")
 
 # %% [markdown]
-# 👀 **Schaut euch die Liste an:** Zu einem Thema gibt es offenbar zwei Dokumente aus
-# verschiedenen Jahren, eines davon *archiviert*. Merkt euch das — es wird in Notebook 3 wichtig.
+# **Schaut euch die Liste an:** Zu einem Thema gibt es offenbar zwei Dokumente aus
+# verschiedenen Jahren, eines davon *archiviert*. Merkt euch das, es wird in Notebook 3 wichtig.
 
 # %% [markdown]
 # ## 1 · Chunking: Dokumente in Häppchen teilen
 #
 # Embedding-Modelle verarbeiten begrenzte Textlängen, und kleinere Einheiten lassen sich
 # präziser wiederfinden. Wir chunken hier bewusst simpel: **ein Absatz = ein Chunk**.
-# Jeder Chunk behält die Metadaten seines Dokuments (`status`, `jahr`, …) — auch das
+# Jeder Chunk behält die Metadaten seines Dokuments (`status`, `jahr`, …). Auch das
 # wird später noch entscheidend.
 #
 # *Diskussion für später: Was wäre bei 50-seitigen Verträgen anders? (Overlap, Satzgrenzen,
-# strukturbasiertes Chunking — vgl. VL 3.)*
+# strukturbasiertes Chunking, vgl. VL 3.)*
 
 # %%
 def erstelle_chunks(dokumente):
@@ -122,10 +122,10 @@ print(json.dumps(chunks[0], ensure_ascii=False, indent=2))
 #
 # Wir nutzen einen **Bi-Encoder** (`paraphrase-multilingual-MiniLM-L12-v2`):
 # ein kleines, mehrsprachiges Open-Source-Modell (~470 MB, läuft auf CPU).
-# Er bildet jeden Chunk **unabhängig** auf einen 384-dimensionalen Vektor ab —
-# deshalb können wir alle Chunk-Vektoren **einmal vorberechnen**.
+# Er bildet jeden Chunk **unabhängig** auf einen 384-dimensionalen Vektor ab.
+# Deshalb können wir alle Chunk-Vektoren **einmal vorberechnen**.
 #
-# ⏳ Der erste Aufruf lädt das Modell herunter (1–2 Minuten, einmalig).
+# Hinweis: Der erste Aufruf lädt das Modell herunter (1 bis 2 Minuten, einmalig).
 
 # %%
 from sentence_transformers import SentenceTransformer
@@ -136,7 +136,7 @@ print(f"Matrix der Chunk-Vektoren: {chunk_vektoren.shape}  (Chunks × Dimensione
 fortschritt("setup", "Setup erledigt")
 
 # %% [markdown]
-# ## 3 · Übung 1: Vektorsuche implementieren 🛠️
+# ## 3 · Übung 1: Vektorsuche implementieren
 #
 # Jetzt seid ihr dran. Die Suche funktioniert so:
 #
@@ -167,7 +167,7 @@ def suche_dense(frage, k=3):
     # === ENDE LÖSUNG ===
 
 # %%
-# ✅ Selbsttest — läuft dieser Block ohne Fehler, ist Übung 1 gelöst.
+# Selbsttest: Läuft dieser Block ohne Fehler, ist Übung 1 gelöst.
 v = np.array([1.0, 0.0])
 assert abs(kosinus_aehnlichkeit(v, v) - 1.0) < 1e-9, "Identische Vektoren müssen Score 1 haben"
 assert abs(kosinus_aehnlichkeit(v, np.array([0.0, 1.0]))) < 1e-9, "Orthogonale Vektoren müssen Score 0 haben"
@@ -175,7 +175,7 @@ assert abs(kosinus_aehnlichkeit(v, np.array([0.0, 1.0]))) < 1e-9, "Orthogonale V
 treffer = suche_dense("Wie viele Urlaubstage habe ich pro Jahr?", k=3)
 assert len(treffer) == 3, "Es sollen genau k Treffer zurückkommen"
 assert treffer[0][1] >= treffer[1][1] >= treffer[2][1], "Treffer müssen absteigend sortiert sein"
-print("✅ Übung 1 gelöst! Bester Treffer:", treffer[0][0]["titel"])
+print("Übung 1 gelöst. Bester Treffer:", treffer[0][0]["titel"])
 fortschritt("u1", "Übung 1")
 
 # %% [markdown]
@@ -217,13 +217,13 @@ def generiere_antwort(frage, treffer):
 def frage_pipeline(frage, suche, k=3, zeige_treffer=True):
     treffer = suche(frage, k=k)
     antwort, quelle = generiere_antwort(frage, treffer)
-    print(f"❓ {frage}\n")
+    print(f"Frage: {frage}\n")
     if zeige_treffer:
         for platz, (c, score) in enumerate(treffer, start=1):
             print(f"  {platz}. ({score:.3f}) [{c['status']}] {c['titel']} · {c['chunk_id']}")
         print()
-    print(f"💬 Antwort: {antwort}")
-    print(f"📄 Quelle: {quelle['titel']} ({quelle['jahr']}, Status: {quelle['status']})")
+    print(f"Antwort: {antwort}")
+    print(f"Quelle: {quelle['titel']} ({quelle['jahr']}, Status: {quelle['status']})")
 
 # %% [markdown]
 # ## 5 · Die Pipeline im Einsatz
@@ -240,7 +240,7 @@ frage_pipeline("Wie viele Urlaubstage habe ich pro Jahr?", suche_dense)
 frage_pipeline("Welche Zustellquote garantiert NL-EXPRESS-24?", suche_dense)
 
 # %% [markdown]
-# 🎉 Sieht gut aus! Naives RAG funktioniert für viele Fragen erstaunlich gut.
+# Sieht gut aus. Naives RAG funktioniert für viele Fragen erstaunlich gut.
 #
 # ## 6 · Stresstest: Wo die Vektorsuche ins Schwitzen kommt
 #
@@ -257,14 +257,14 @@ frage_pipeline("Krieg ich Kohle zurück, wenn's Paket im Eimer ankommt?", suche_
 fortschritt("nb1", "Notebook 01 durchgearbeitet")
 
 # %% [markdown]
-# ### 🤔 Diskutiert kurz zu zweit (2 Minuten)
+# ### Diskutiert kurz zu zweit (2 Minuten)
 #
 # 1. Wie nah liegen die Scores der Top-3 beieinander? Könnt ihr aus dem Score ablesen,
-#    ob ein Treffer *wirklich* relevant ist — oder nur *am wenigsten unpassend*?
+#    ob ein Treffer *wirklich* relevant ist, oder nur *am wenigsten unpassend*?
 # 2. Embeddings erfassen **Bedeutung**, keine exakten Zeichenketten. Bei welchem der
 #    beiden Fälle würdet ihr einer klassischen **Keyword-Suche** mehr zutrauen? Warum?
 # 3. Was passiert wohl bei Fragen, für die es **mehrere ähnliche Dokumente** im Korpus gibt?
 #
 # **→ Weiter in Notebook 2:** Wir kombinieren die Vektorsuche mit BM25-Keyword-Suche
-# zu einer **Hybrid Search** — und lernen, wie man zwei völlig verschiedene
+# zu einer **Hybrid Search** und lernen, wie man zwei völlig verschiedene
 # Ranglisten fair fusioniert (RRF).

@@ -173,6 +173,6 @@ check(hit_at_k(dummy, ["mobiles-arbeiten-2025"], k=1) == 0.0, "Hit@1 verpasst Tr
 check(reciprocal_rank(dummy, ["mobiles-arbeiten-2025"]) == 0.5, "RR für Rang 2 = 0,5")
 check(reciprocal_rank(dummy, ["sla-2025"]) == 0.0, "RR ohne Treffer = 0")
 
-print(f"\n✅ Alle {ok} Checks bestanden.")
-print("ℹ️  Modellabhängige Pfade (Dense-Retrieval, Cross-Encoder) bitte einmal lokal/in Colab")
-print("    komplett durchlaufen lassen — siehe MODERATIONSLEITFADEN, Abschnitt Generalprobe.")
+print(f"\nAlle {ok} Checks bestanden.")
+print("Hinweis: Modellabhängige Pfade (Dense-Retrieval, Cross-Encoder) bitte einmal lokal/in Colab")
+print("         komplett durchlaufen lassen, siehe MODERATIONSLEITFADEN, Abschnitt Generalprobe.")

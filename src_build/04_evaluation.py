@@ -4,7 +4,7 @@
 #   <div style="font-size:11px;letter-spacing:2.5px;color:#9BE3D8;font-weight:700">NORDLICHT LOGISTIK · PROJEKT WISSENSASSISTENT</div>
 #   <div style="font-size:27px;font-weight:700;margin-top:7px;line-height:1.2">Notebook 04 · Evaluation</div>
 #   <div style="color:#C7D4E3;font-size:14px;margin-top:7px">Fünf Ausbaustufen, fünfzehn Gold-Fragen, zwei Metriken</div>
-#   <div style="color:#7E93AC;font-size:12.5px;margin-top:12px">Workshop RAG Advanced · WDSKI23A · DHBW Mannheim &nbsp;·&nbsp; ⏱ ~10 min · Demo</div>
+#   <div style="color:#7E93AC;font-size:12.5px;margin-top:12px">Workshop RAG Advanced · WDSKI23A · DHBW Mannheim &nbsp;·&nbsp; ca. 10 min · Demo</div>
 # </div>
 #
 # **Workshop RAG Advanced · WDSKI23A · DHBW Mannheim**
@@ -21,10 +21,10 @@
 # | Hybrid + Rerank | + Cross-Encoder (Notebook 3) |
 # | **Advanced** | + Metadaten-Filter (Notebook 3, Übung 4) |
 #
-# > ⏱️ ca. 10 Minuten · Dieses Notebook ist eine Demo — keine Übung, gern selbst durchklicken.
+# > Dauer ca. 10 Minuten · Dieses Notebook ist eine Demo, keine Übung. Gern selbst durchklicken.
 
 # %% [markdown]
-# ## 0 · Setup (die komplette Pipeline aus den Notebooks 1–3)
+# ## 0 · Setup (die komplette Pipeline aus den Notebooks 1 bis 3)
 
 # %%
 # %pip install -q sentence-transformers rank_bm25 pandas matplotlib
@@ -52,8 +52,8 @@ PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffe
 def fortschritt(kennung, text=""):
     """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
     if PORTAL:
-        zusatz = f" \u2014 {text}" if text else ""
-        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        zusatz = f": {text}" if text else ""
+        print(f"\nIm Portal abhaken{zusatz}:")
         print(f"   {PORTAL}/?fertig={kennung}")
 
 
@@ -155,11 +155,11 @@ print(f"Setup fertig: {len(chunks)} Chunks, {len(testset)} Gold-Fragen.")
 # Das Testset kennt zu jeder Frage die **relevanten Dokumente**. Wir messen auf
 # Dokument-Ebene:
 #
-# - **Hit@3** — steht mindestens ein relevantes Dokument in den Top-3? *(Anteil der
+# - **Hit@3**: Steht mindestens ein relevantes Dokument in den Top-3? *(Anteil der
 #   Fragen, bei denen das LLM die richtige Information überhaupt im Kontext hätte.)*
-# - **MRR** (Mean Reciprocal Rank) — auf welchem Rang steht der erste relevante
+# - **MRR** (Mean Reciprocal Rank): Auf welchem Rang steht der erste relevante
 #   Treffer? Rang 1 → 1,0 · Rang 2 → 0,5 · Rang 3 → 0,33 · nicht dabei → 0.
-#   *(Belohnt, dass die beste Quelle ganz oben steht — dort, wo unsere Generierung liest.)*
+#   *(Belohnt, dass die beste Quelle ganz oben steht, genau dort liest unsere Generierung.)*
 
 # %%
 def hit_at_k(treffer, relevante_docs, k=3):
@@ -206,7 +206,7 @@ import matplotlib.pyplot as plt
 
 achse = ergebnis.plot.bar(rot=15, figsize=(9, 4.5), color=["#4c72b0", "#dd8452"])
 achse.set_ylim(0, 1.05)
-achse.set_ylabel("Score (0–1)")
+achse.set_ylabel("Score (0 bis 1)")
 achse.set_title("Retrieval-Qualität je Ausbaustufe · 15 Gold-Fragen · NordLicht-Korpus")
 for container in achse.containers:
     achse.bar_label(container, fmt="%.2f", fontsize=9)
@@ -230,32 +230,32 @@ for frage in testset:
     if len(set(raenge.values())) > 1:  # nur Fragen mit Unterschieden zeigen
         print(f"Frage {frage['id']:>2} ({frage['kategorie']}): {frage['frage']}")
         for name, rr in raenge.items():
-            symbol = "✅" if rr == 1.0 else ("🟡" if rr > 0 else "❌")
-            print(f"    {symbol} {name:<22} RR = {rr:.2f}")
+            symbol = "Rang 1 " if rr == 1.0 else ("Treffer" if rr > 0 else "daneben")
+            print(f"    [{symbol}] {name:<22} RR = {rr:.2f}")
         print()
 
 # %% [markdown]
 # Achtet besonders auf **Frage 13** (Kategorie `falle`): Sie ist der Grund, warum
-# "Hybrid + Rerank" trotz Cross-Encoder nicht auf 100 % kommt — und warum erst der
+# "Hybrid + Rerank" trotz Cross-Encoder nicht auf 100 % kommt, und warum erst der
 # Metadaten-Filter das Problem löst. Genau diese Zahlen gehören auf die Ergebnis-Folie.
 #
 # ## 4 · Einordnung: Von unseren Metriken zu RAGAS
 #
-# Unsere Messung ist bewusst **LLM-frei** (kostenlos, deterministisch, sekundenschnell) —
-# sie bewertet aber nur das **Retrieval**. Das Framework **RAGAS** (vgl. VL 3) misst
+# Unsere Messung ist bewusst **LLM-frei** (kostenlos, deterministisch, sekundenschnell).
+# Sie bewertet aber nur das **Retrieval**. Das Framework **RAGAS** (vgl. VL 3) misst
 # zusätzlich die **Generierung**, braucht dafür jedoch ein LLM als Judge (= API-Kosten):
 #
 # | Unsere Metrik | RAGAS-Verwandter | Frage dahinter |
 # |---|---|---|
 # | Hit@3 | Context Recall | Ist die nötige Information im Kontext? |
 # | MRR | Context Precision (Ranking-Aspekt) | Steht das Relevante oben, ohne Ballast? |
-# | — | Faithfulness | Hält sich die Antwort an den Kontext? |
-# | — | Answer Relevancy | Beantwortet die Antwort die Frage? |
+# | (kein Pendant) | Faithfulness | Hält sich die Antwort an den Kontext? |
+# | (kein Pendant) | Answer Relevancy | Beantwortet die Antwort die Frage? |
 #
 # Die **Diagnose-Logik** bleibt dieselbe: niedriger Recall → Chunking/Hybrid/k prüfen;
 # viel Irrelevantes im Kontext → Reranking; Antwort ignoriert Kontext → Prompt/Modell.
 # Und unser Störfall zeigt eine Lücke *jeder* dieser Metriken: **Frage 13 hätte vor dem
-# Filter perfekte Retrieval-Scores gehabt** — das gefundene Dokument war ja "relevant",
+# Filter perfekte Retrieval-Scores gehabt**, das gefundene Dokument war ja "relevant",
 # nur eben veraltet. Faktische Korrektheit muss man **gegen Gold-Antworten** prüfen,
 # nicht nur gegen Relevanz.
 #
@@ -263,7 +263,7 @@ for frage in testset:
 #
 # 1. **Evaluation zuerst bauen, dann optimieren.** Ohne Testset ist jede
 #    Architekturdiskussion Geschmackssache.
-# 2. **Jede Stufe hat einen messbaren, spezifischen Beitrag** — und keine ersetzt
+# 2. **Jede Stufe hat einen messbaren, spezifischen Beitrag**, und keine ersetzt
 #    gepflegte Metadaten.
 # 3. In CI/CD gehört so ein Benchmark als **Regressionstest**: Jede Änderung an
 #    Chunking, Modellen oder Prompts läuft gegen das Gold-Set (vgl. VL 3, CI-Integration).

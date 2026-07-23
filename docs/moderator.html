@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Moderatorenpult · Workshop RAG Advanced</title>
+<meta name="robots" content="noindex">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%230B2545'/%3E%3Cpath d='M12 44 C22 20 42 20 52 36' stroke='%232EC4B6' stroke-width='6' fill='none' stroke-linecap='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:opsz,wght@6..72,500;6..72,600&family=Public+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--night:#071627;--navy:#0B2545;--navy2:#122C4C;--teal:#1C7293;--aurora:#2EC4B6;
+  --aurora-lt:#9BE3D8;--ink:#E4EDF6;--mute:#8299B3;--line:rgba(255,255,255,.13);
+  --warn:#E0864A;--green:#3CB878;--ui:"Public Sans",system-ui,sans-serif;
+  --disp:"Newsreader",Georgia,serif;--mono:"IBM Plex Mono",monospace}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:#050F1B;color:var(--ink);font-family:var(--ui);min-height:100vh;line-height:1.55}
+button{font-family:var(--ui);cursor:pointer}
+:focus-visible{outline:2.5px solid var(--aurora);outline-offset:2px}
+.wrap{max-width:1180px;margin:0 auto;padding:0 22px}
+
+.top{background:var(--night);border-bottom:1px solid var(--line)}
+.top .wrap{display:flex;align-items:center;gap:16px;height:64px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none;color:#fff;margin-right:auto}
+.brand b{font-family:var(--disp);font-size:19px;font-weight:600;line-height:1.1;display:block}
+.brand small{font-size:9.5px;letter-spacing:.17em;color:var(--mute);text-transform:uppercase}
+.tbtn{background:rgba(255,255,255,.07);border:1px solid var(--line);color:#C6D6E6;border-radius:7px;
+  padding:8px 14px;font-size:13px;font-weight:500;text-decoration:none;display:inline-flex;
+  align-items:center;gap:7px}
+.tbtn:hover{background:rgba(255,255,255,.15);color:#fff}
+.tbtn.go{background:var(--aurora);border-color:var(--aurora);color:#062B28;font-weight:600}
+@media(max-width:720px){.tbtn .hd{display:none}}
+
+.hero{padding:26px 0 6px}
+.hero h1{font-family:var(--disp);font-size:30px;font-weight:600;color:#fff}
+.hero p{color:var(--mute);font-size:14.5px;max-width:62ch;margin-top:5px}
+.hint{margin-top:14px;background:rgba(46,196,182,.1);border:1px solid rgba(46,196,182,.3);
+  border-radius:9px;padding:12px 16px;font-size:13.5px;color:#BFE4DE}
+.hint b{color:var(--aurora-lt)}
+
+/* Teilnehmerzahl */
+.setup{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-top:22px;
+  background:var(--navy);border:1px solid var(--line);border-radius:11px;padding:15px 18px}
+.setup label{font-size:13.5px;color:var(--mute)}
+.setup input{width:76px;background:rgba(255,255,255,.08);border:1.5px solid var(--line);color:#fff;
+  border-radius:7px;padding:8px 11px;font-family:var(--mono);font-size:16px;text-align:center}
+.setup input:focus{outline:none;border-color:var(--aurora)}
+.setup .sp{margin-left:auto;display:flex;gap:9px;flex-wrap:wrap}
+
+/* Phasen-Karten */
+.phases{display:grid;grid-template-columns:repeat(auto-fit,minmax(232px,1fr));gap:14px;margin-top:18px}
+.ph{background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:17px 18px;
+  display:flex;flex-direction:column;gap:12px;position:relative;overflow:hidden}
+.ph.done{border-color:rgba(60,184,120,.55)}
+.ph.active{border-color:var(--aurora);box-shadow:0 0 0 2px rgba(46,196,182,.18)}
+.ph .tag{font-family:var(--mono);font-size:10.5px;color:var(--teal);letter-spacing:.05em}
+.ph h3{font-family:var(--disp);font-size:18px;font-weight:600;color:#fff;line-height:1.22}
+.ph .sub{font-size:12px;color:var(--mute);margin-top:-6px}
+.cnt{display:flex;align-items:baseline;gap:8px}
+.cnt b{font-family:var(--disp);font-size:40px;font-weight:600;color:var(--aurora-lt);line-height:1}
+.cnt span{font-size:13px;color:var(--mute)}
+.mini{height:7px;border-radius:99px;background:rgba(255,255,255,.11);overflow:hidden}
+.mini i{display:block;height:100%;width:0;background:linear-gradient(90deg,var(--teal),var(--aurora));
+  transition:width .3s}
+.ph.done .mini i{background:linear-gradient(90deg,#2E9A63,var(--green))}
+.row{display:flex;gap:8px}
+.row button{flex:1;border:1.5px solid var(--line);background:rgba(255,255,255,.06);color:#D6E3F0;
+  border-radius:8px;padding:11px;font-size:19px;font-weight:600;line-height:1}
+.row button:hover{background:rgba(255,255,255,.16);border-color:var(--aurora);color:#fff}
+.row button.plus{background:rgba(46,196,182,.16);border-color:rgba(46,196,182,.4);color:var(--aurora-lt)}
+.row button.plus:hover{background:var(--aurora);color:#062B28}
+.ph .flag{position:absolute;top:12px;right:14px;font-size:11px;font-weight:700;color:var(--green);
+  opacity:0;transition:opacity .2s}
+.ph.done .flag{opacity:1}
+
+/* Timer */
+.timers{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;margin-top:18px;
+  background:var(--navy);border:1px solid var(--line);border-radius:12px;padding:17px 20px}
+@media(max-width:640px){.timers{grid-template-columns:1fr}}
+.clock{font-family:var(--mono);font-size:34px;color:#fff;letter-spacing:.02em}
+.clock.warnrun{color:var(--warn)}
+.clock small{font-size:12px;color:var(--mute);display:block;font-family:var(--ui);letter-spacing:0}
+.tctl{display:flex;gap:9px;flex-wrap:wrap}
+.tctl button{border:1.5px solid var(--line);background:rgba(255,255,255,.06);color:#D6E3F0;
+  border-radius:8px;padding:9px 15px;font-size:13.5px;font-weight:600}
+.tctl button:hover{border-color:var(--aurora);color:#fff}
+.tctl button.on{background:var(--aurora);border-color:var(--aurora);color:#062B28}
+
+.footnote{margin:26px 0 40px;font-size:12.5px;color:var(--mute)}
+.footnote a{color:var(--teal)}
+
+/* Beamer-Ansicht */
+.beam{position:fixed;inset:0;background:#050F1B;z-index:90;display:none;padding:38px;
+  flex-direction:column}
+.beam.on{display:flex}
+.beam header{display:flex;align-items:baseline;gap:18px;margin-bottom:26px}
+.beam h2{font-family:var(--disp);font-size:38px;color:#fff;font-weight:600}
+.beam .bclock{margin-left:auto;font-family:var(--mono);font-size:40px;color:var(--aurora-lt)}
+.beam .close{position:fixed;top:20px;right:24px;background:rgba(255,255,255,.1);border:1px solid var(--line);
+  color:#fff;border-radius:8px;padding:9px 16px;font-size:14px}
+.bgrid{flex:1;display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));gap:22px;align-content:start}
+.bcell{background:var(--navy);border:1px solid var(--line);border-radius:14px;padding:24px 26px}
+.bcell.done{border-color:var(--green);background:#0C2B22}
+.bcell h3{font-family:var(--disp);font-size:22px;color:#fff;font-weight:600}
+.bcell .big{font-family:var(--disp);font-size:66px;font-weight:600;color:var(--aurora-lt);line-height:1.05;margin:8px 0}
+.bcell.done .big{color:var(--green)}
+.bcell .of{font-size:16px;color:var(--mute)}
+.bcell .mini{height:10px;margin-top:14px}
+</style>
+</head>
+<body>
+
+<div class="top">
+  <div class="wrap">
+    <a class="brand" href="index.html">
+      <svg viewBox="0 0 64 64" width="28" height="28" aria-hidden="true"><rect width="64" height="64" rx="13" fill="#0B2545"/><path d="M12 44 C22 20 42 20 52 36" stroke="#2EC4B6" stroke-width="6" fill="none" stroke-linecap="round"/><path d="M12 52 C24 32 40 32 52 46" stroke="#1C7293" stroke-width="6" fill="none" stroke-linecap="round"/></svg>
+      <span><b>Moderatorenpult</b><small>NordLicht · Workshop</small></span>
+    </a>
+    <a class="tbtn" href="praesentation.html"><span class="hd">Präsentation</span> ▸</a>
+    <a class="tbtn" href="index.html"><span class="hd">Portal</span> ⌂</a>
+    <button class="tbtn go" onclick="beamOn()">Beamer-Ansicht</button>
+  </div>
+</div>
+
+<div class="wrap">
+  <div class="hero">
+    <h1>Wie weit ist der Raum?</h1>
+    <p>Beim Rundgang antippen, wer eine Übung geschafft hat. So seht ihr auf einen Blick,
+      wann ihr die Lösung auflösen und weitermachen könnt — ohne jedes Mal in die Runde zu fragen.</p>
+    <div class="hint"><b>Faustregel aus der Didaktik:</b> Weitermachen, sobald rund
+      <b>zwei Drittel</b> fertig sind. Wer länger braucht, bekommt die Lösung live vorgetippt —
+      lieber im Fluss bleiben als alle warten lassen.</div>
+  </div>
+
+  <div class="setup">
+    <label for="anz">Teilnehmende im Raum</label>
+    <input id="anz" type="number" min="1" max="99" value="16" onchange="setAnz()">
+    <div class="sp">
+      <button class="tbtn" onclick="allesZuruecksetzen()">Alles zurücksetzen</button>
+    </div>
+  </div>
+
+  <div class="phases" id="phases"></div>
+
+  <div class="timers">
+    <div>
+      <div class="clock" id="clock">00:00<small id="clabel">Timer gestoppt</small></div>
+    </div>
+    <div class="tctl">
+      <button id="tgo" onclick="timerToggle()">Start</button>
+      <button onclick="timerReset()">Zurücksetzen</button>
+      <button onclick="setZiel(8)">Ziel 8 min</button>
+      <button onclick="setZiel(12)">Ziel 12 min</button>
+      <button onclick="setZiel(20)">Ziel 20 min</button>
+    </div>
+  </div>
+
+  <p class="footnote">Alle Angaben bleiben in diesem Browser (nichts wird übertragen).
+    Öffnet die Seite auf dem Gerät, mit dem ihr herumlauft — Handy oder Tablet reicht.
+    Zurück zum <a href="index.html">Portal</a>.</p>
+</div>
+
+<div class="beam" id="beam">
+  <button class="close" onclick="beamOff()">Schließen (Esc)</button>
+  <header>
+    <h2 id="btitel">Fortschritt im Raum</h2>
+    <div class="bclock" id="bclock">00:00</div>
+  </header>
+  <div class="bgrid" id="bgrid"></div>
+</div>
+
+<script>
+const PHASEN = [
+  {id:"u1", tag:"Notebook 01", name:"Übung 1", sub:"Kosinus & Top-k"},
+  {id:"u2", tag:"Notebook 02", name:"Übung 2", sub:"Reciprocal Rank Fusion"},
+  {id:"u3", tag:"Notebook 03", name:"Übung 3", sub:"Cross-Encoder-Reranking"},
+  {id:"u4", tag:"Notebook 03", name:"Übung 4", sub:"Metadaten-Filter"},
+];
+const KEY = "nl-moderator";
+let stand = {anz:16, zaehler:{}};
+PHASEN.forEach(p => stand.zaehler[p.id] = 0);
+
+try {
+  const g = JSON.parse(localStorage.getItem(KEY) || "null");
+  if (g && g.zaehler) stand = Object.assign(stand, g);
+} catch(e){}
+document.getElementById("anz").value = stand.anz;
+
+function sichern(){ try { localStorage.setItem(KEY, JSON.stringify(stand)); } catch(e){} }
+function setAnz(){
+  const v = parseInt(document.getElementById("anz").value, 10);
+  stand.anz = Math.max(1, Math.min(99, isNaN(v) ? 16 : v));
+  document.getElementById("anz").value = stand.anz;
+  sichern(); male();
+}
+function zaehle(id, d){
+  stand.zaehler[id] = Math.max(0, Math.min(stand.anz, (stand.zaehler[id] || 0) + d));
+  sichern(); male();
+}
+function allesZuruecksetzen(){
+  if (!confirm("Alle Zählstände zurücksetzen?")) return;
+  PHASEN.forEach(p => stand.zaehler[p.id] = 0);
+  sichern(); male();
+}
+
+function male(){
+  const anz = stand.anz;
+  document.getElementById("phases").innerHTML = PHASEN.map(p=>{
+    const n = stand.zaehler[p.id] || 0;
+    const q = anz ? n/anz : 0;
+    const fertig = q >= 2/3;
+    return `<article class="ph${fertig?" done":""}">
+      <span class="flag">✓ weitermachen</span>
+      <div><div class="tag">${p.tag}</div><h3>${p.name}</h3><p class="sub">${p.sub}</p></div>
+      <div class="cnt"><b>${n}</b><span>von ${anz} fertig</span></div>
+      <div class="mini"><i style="width:${(q*100).toFixed(0)}%"></i></div>
+      <div class="row">
+        <button onclick="zaehle('${p.id}',-1)" aria-label="${p.name} minus eins">−</button>
+        <button class="plus" onclick="zaehle('${p.id}',1)" aria-label="${p.name} plus eins">+</button>
+      </div></article>`;
+  }).join("");
+
+  document.getElementById("bgrid").innerHTML = PHASEN.map(p=>{
+    const n = stand.zaehler[p.id] || 0;
+    const q = anz ? n/anz : 0;
+    return `<div class="bcell${q>=2/3?" done":""}">
+      <h3>${p.name}</h3>
+      <div class="big">${n}<span class="of"> / ${anz}</span></div>
+      <div class="mini"><i style="width:${(q*100).toFixed(0)}%"></i></div></div>`;
+  }).join("");
+}
+
+/* Timer mit optionalem Ziel */
+let t0=null, acc=0, tick=null, ziel=0;
+function fmt(ms){ const s=Math.max(0,Math.floor(ms/1000));
+  return String(Math.floor(s/60)).padStart(2,"0")+":"+String(s%60).padStart(2,"0"); }
+function malUhr(){
+  const ms = acc + (t0 ? Date.now()-t0 : 0);
+  const rest = ziel ? ziel*60000 - ms : null;
+  const txt = ziel ? fmt(Math.abs(rest)) : fmt(ms);
+  const el = document.getElementById("clock");
+  el.firstChild.textContent = (ziel && rest < 0 ? "+" : "") + txt;
+  el.classList.toggle("warnrun", ziel && rest < 60000);
+  document.getElementById("bclock").textContent = (ziel && rest < 0 ? "+" : "") + txt;
+  document.getElementById("clabel").textContent = ziel
+    ? (rest < 0 ? "über der geplanten Zeit" : `noch bis Ziel (${ziel} min)`)
+    : (t0 ? "läuft" : "Timer gestoppt");
+}
+function timerToggle(){
+  const b = document.getElementById("tgo");
+  if (t0) { acc += Date.now()-t0; t0=null; clearInterval(tick); b.textContent="Start"; b.classList.remove("on"); }
+  else { t0 = Date.now(); tick = setInterval(malUhr, 500); b.textContent="Pause"; b.classList.add("on"); }
+  malUhr();
+}
+function timerReset(){ acc=0; if(t0) t0=Date.now(); malUhr(); }
+function setZiel(m){ ziel = (ziel===m ? 0 : m); acc=0; if(t0) t0=Date.now(); malUhr(); }
+
+function beamOn(){ document.getElementById("beam").classList.add("on");
+  if (document.documentElement.requestFullscreen) document.documentElement.requestFullscreen().catch(()=>{}); }
+function beamOff(){ document.getElementById("beam").classList.remove("on");
+  if (document.fullscreenElement) document.exitFullscreen().catch(()=>{}); }
+document.addEventListener("keydown", e=>{
+  if (e.key === "Escape") beamOff();
+  if (e.key.toLowerCase() === "t" && e.target.tagName !== "INPUT") timerToggle();
+});
+
+male(); malUhr();
+</script>
+</body>
+</html>
