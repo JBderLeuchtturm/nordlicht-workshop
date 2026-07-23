@@ -39,7 +39,22 @@ import urllib.request
 import numpy as np
 
 # Falls ihr die Daten nicht lokal habt (z. B. in Colab), werden sie von GitHub geladen.
-DATA_URL = "https://raw.githubusercontent.com/DEIN-GITHUB-NAME/rag-advanced-workshop/main/data"
+DATA_URL = "https://raw.githubusercontent.com/JBderLeuchtturm/nordlicht-workshop/main/data"
+
+# Portal-Adresse aus DATA_URL ableiten und Fortschritt melden koennen
+import re as _re
+
+_treffer = _re.search(r"githubusercontent\.com/([^/]+)/([^/]+)/", DATA_URL)
+PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffer else ""
+
+
+def fortschritt(kennung, text=""):
+    """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
+    if PORTAL:
+        zusatz = f" \u2014 {text}" if text else ""
+        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        print(f"   {PORTAL}/?fertig={kennung}")
+
 
 
 def lade_json(dateiname):
@@ -118,6 +133,7 @@ from sentence_transformers import SentenceTransformer
 embedder = SentenceTransformer("paraphrase-multilingual-MiniLM-L12-v2")
 chunk_vektoren = embedder.encode([c["text"] for c in chunks], show_progress_bar=True)
 print(f"Matrix der Chunk-Vektoren: {chunk_vektoren.shape}  (Chunks × Dimensionen)")
+fortschritt("setup", "Setup erledigt")
 
 # %% [markdown]
 # ## 3 · Übung 1: Vektorsuche implementieren 🛠️
@@ -160,6 +176,7 @@ treffer = suche_dense("Wie viele Urlaubstage habe ich pro Jahr?", k=3)
 assert len(treffer) == 3, "Es sollen genau k Treffer zurückkommen"
 assert treffer[0][1] >= treffer[1][1] >= treffer[2][1], "Treffer müssen absteigend sortiert sein"
 print("✅ Übung 1 gelöst! Bester Treffer:", treffer[0][0]["titel"])
+fortschritt("u1", "Übung 1")
 
 # %% [markdown]
 # ## 4 · Generierung: Vom Chunk zur Antwort
@@ -237,6 +254,7 @@ frage_pipeline("NL-410", suche_dense)
 # %%
 # Fall B: Sehr umgangssprachliche Formulierung.
 frage_pipeline("Krieg ich Kohle zurück, wenn's Paket im Eimer ankommt?", suche_dense)
+fortschritt("nb1", "Notebook 01 durchgearbeitet")
 
 # %% [markdown]
 # ### 🤔 Diskutiert kurz zu zweit (2 Minuten)

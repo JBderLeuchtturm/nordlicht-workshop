@@ -40,7 +40,22 @@ import pandas as pd
 from rank_bm25 import BM25Okapi
 from sentence_transformers import CrossEncoder, SentenceTransformer
 
-DATA_URL = "https://raw.githubusercontent.com/DEIN-GITHUB-NAME/rag-advanced-workshop/main/data"
+DATA_URL = "https://raw.githubusercontent.com/JBderLeuchtturm/nordlicht-workshop/main/data"
+
+# Portal-Adresse aus DATA_URL ableiten und Fortschritt melden koennen
+import re as _re
+
+_treffer = _re.search(r"githubusercontent\.com/([^/]+)/([^/]+)/", DATA_URL)
+PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffer else ""
+
+
+def fortschritt(kennung, text=""):
+    """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
+    if PORTAL:
+        zusatz = f" \u2014 {text}" if text else ""
+        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        print(f"   {PORTAL}/?fertig={kennung}")
+
 
 
 def lade_json(dateiname):
@@ -197,6 +212,7 @@ for container in achse.containers:
     achse.bar_label(container, fmt="%.2f", fontsize=9)
 plt.tight_layout()
 plt.savefig("benchmark_ergebnis.png", dpi=150)
+fortschritt("nb4", "Evaluation gesehen")
 plt.show()
 
 # %% [markdown]

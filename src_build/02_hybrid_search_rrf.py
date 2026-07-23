@@ -34,7 +34,22 @@ import urllib.request
 import numpy as np
 from sentence_transformers import SentenceTransformer
 
-DATA_URL = "https://raw.githubusercontent.com/DEIN-GITHUB-NAME/rag-advanced-workshop/main/data"
+DATA_URL = "https://raw.githubusercontent.com/JBderLeuchtturm/nordlicht-workshop/main/data"
+
+# Portal-Adresse aus DATA_URL ableiten und Fortschritt melden koennen
+import re as _re
+
+_treffer = _re.search(r"githubusercontent\.com/([^/]+)/([^/]+)/", DATA_URL)
+PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffer else ""
+
+
+def fortschritt(kennung, text=""):
+    """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
+    if PORTAL:
+        zusatz = f" \u2014 {text}" if text else ""
+        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        print(f"   {PORTAL}/?fertig={kennung}")
+
 
 
 def lade_json(dateiname):
@@ -178,6 +193,7 @@ for name, score in sorted(beispiel.items(), key=lambda x: -x[1]):
 assert gewinner == "B", "B steht auf Rang 2 und Rang 1 — Konsistenz muss belohnt werden!"
 assert abs(beispiel["B"] - (1 / 62 + 1 / 61)) < 1e-9
 print("✅ Übung 2 gelöst! B gewinnt — Konsistenz über beide Listen wird belohnt.")
+fortschritt("u2", "Übung 2")
 
 # %% [markdown]
 # ## 5 · Hybrid Search zusammenbauen

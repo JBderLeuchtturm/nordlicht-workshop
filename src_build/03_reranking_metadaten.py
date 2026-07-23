@@ -34,7 +34,22 @@ import numpy as np
 from rank_bm25 import BM25Okapi
 from sentence_transformers import SentenceTransformer
 
-DATA_URL = "https://raw.githubusercontent.com/DEIN-GITHUB-NAME/rag-advanced-workshop/main/data"
+DATA_URL = "https://raw.githubusercontent.com/JBderLeuchtturm/nordlicht-workshop/main/data"
+
+# Portal-Adresse aus DATA_URL ableiten und Fortschritt melden koennen
+import re as _re
+
+_treffer = _re.search(r"githubusercontent\.com/([^/]+)/([^/]+)/", DATA_URL)
+PORTAL = f"https://{_treffer.group(1)}.github.io/{_treffer.group(2)}" if _treffer else ""
+
+
+def fortschritt(kennung, text=""):
+    """Zeigt einen Link, der den Punkt im Workshop-Portal abhakt."""
+    if PORTAL:
+        zusatz = f" \u2014 {text}" if text else ""
+        print(f"\n\u2611 Im Portal abhaken{zusatz}:")
+        print(f"   {PORTAL}/?fertig={kennung}")
+
 
 
 def lade_json(dateiname):
@@ -186,6 +201,7 @@ assert len(test_ergebnis) == 3, "Es sollen genau top_n Ergebnisse zurückkommen"
 assert test_ergebnis[0][1] >= test_ergebnis[1][1], "Ergebnisse müssen absteigend sortiert sein"
 assert "Dieselzuschlag" in test_ergebnis[0][0]["text"], "Der Dieselzuschlag-Chunk muss gewinnen"
 print("✅ Übung 3 gelöst! Top-Chunk:", test_ergebnis[0][0]["chunk_id"])
+fortschritt("u3", "Übung 3")
 
 # %% [markdown]
 # ## 3 · Die Advanced-Pipeline: Hybrid → Rerank → Antwort
@@ -261,6 +277,7 @@ ergebnis = suche_advanced("Wie viele Tage Homeoffice sind bei NordLicht erlaubt?
 assert all(c["status"] != "archiviert" for c, _ in ergebnis), "Archivierte Chunks müssen rausgefiltert sein"
 assert ergebnis[0][0]["doc_id"] == "mobiles-arbeiten-2025", "Jetzt muss die gültige Richtlinie von 2025 gewinnen"
 print("✅ Übung 4 gelöst! Die Pipeline antwortet jetzt aus der gültigen Richtlinie.")
+fortschritt("u4", "Übung 4")
 
 # %% [markdown]
 # ## 6 · Was nehmen wir mit?

@@ -223,6 +223,20 @@ h3{font-family:var(--disp);font-weight:600;color:var(--ink)}
 .side .reset{width:100%;background:none;border:none;border-top:1px solid var(--line);color:var(--mute);
   font-family:var(--ui);font-size:12.5px;padding:11px;cursor:pointer}
 .side .reset:hover{color:var(--warn);background:var(--white)}
+.whobox{padding:0 17px 14px;border-bottom:1px solid var(--line)}
+.whobox label{display:block;font-size:11.5px;color:var(--mute);margin-bottom:6px}
+.whorow{display:flex;gap:6px}
+.whorow input{flex:1;min-width:0;border:1.5px solid var(--line);border-radius:6px;padding:7px 10px;
+  font-family:var(--ui);font-size:13.5px;color:var(--ink);background:var(--white)}
+.whorow input:focus{outline:none;border-color:var(--teal)}
+.whorow button{border:1.5px solid var(--line);background:var(--white);color:var(--navy);border-radius:6px;
+  padding:7px 12px;font-size:12.5px;font-weight:600}
+.whorow button:hover{border-color:var(--teal);color:var(--teal)}
+.whonote{font-size:11px;color:var(--mute);margin-top:7px;line-height:1.45}
+.whonote b{color:var(--teal)}
+.toast{display:none;margin:0 17px 12px;background:var(--green-bg);border:1px solid #C8E3D2;color:var(--green);
+  border-radius:7px;padding:9px 12px;font-size:12.5px;font-weight:600}
+.toast.on{display:block}
 
 /* Notebook-Karten */
 .nb{border:1px solid var(--line);border-radius:var(--r);margin-bottom:20px;background:var(--white);overflow:hidden}
@@ -282,6 +296,54 @@ h3{font-family:var(--disp);font-weight:600;color:var(--ink)}
   border-radius:var(--r);padding:20px 24px;margin-top:6px;align-items:start}
 .band b{color:var(--aurora-lt)}
 .band code{font-family:var(--mono);font-size:12.5px;background:rgba(255,255,255,.11);border-radius:4px;padding:1px 6px}
+
+/* ── Live-Demo ───────────────────────────────── */
+.qpick{display:flex;gap:8px;flex-wrap:wrap;margin-top:26px}
+.qchip{font-family:var(--ui);font-size:13px;font-weight:600;border:1.5px solid var(--line);background:var(--paper);
+  color:var(--navy);border-radius:7px;padding:8px 15px;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+.qchip:hover{border-color:var(--teal);color:var(--teal)}
+.qchip.act{background:var(--navy);border-color:var(--navy);color:#fff}
+.qchip .warnpin{width:7px;height:7px;border-radius:50%;background:var(--warn);flex:none}
+.qchip.act .warnpin{background:#FFB27D}
+.qhead{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:start;margin-top:20px;
+  background:var(--paper);border:1px solid var(--line);border-radius:var(--r);padding:20px 24px}
+@media(max-width:760px){.qhead{grid-template-columns:1fr}}
+.qlabel{font-size:10.5px;letter-spacing:.13em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.qtext{font-family:var(--disp);font-size:22px;font-weight:600;color:var(--ink);line-height:1.25;margin-top:6px}
+.qhint{font-size:13.5px;color:var(--mute);margin-top:7px;max-width:66ch}
+.qmeta{font-family:var(--mono);font-size:11.5px;color:var(--mute);text-align:right;white-space:nowrap}
+.qmeta b{display:block;color:var(--warn);font-family:var(--ui);font-size:12px;font-weight:700;margin-bottom:3px}
+.modes{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:18px}
+@media(max-width:1080px){.modes{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:620px){.modes{grid-template-columns:1fr}}
+.mode{border:1px solid var(--line);border-radius:var(--r);overflow:hidden;background:var(--white);
+  display:flex;flex-direction:column}
+.mode.best{border-color:var(--aurora);box-shadow:0 0 0 2px rgba(46,196,182,.16)}
+.mode>header{padding:13px 15px;border-bottom:1px solid var(--line);background:var(--paper)}
+.mode h4{font-family:var(--disp);font-size:16px;font-weight:600;color:var(--ink)}
+.mode header span{font-size:11.5px;color:var(--mute);display:block;margin-top:2px}
+.hits{list-style:none;padding:9px 12px;flex:1}
+.hit{display:grid;grid-template-columns:20px 1fr;gap:9px;padding:8px 5px;border-bottom:1px dashed var(--line-soft);
+  align-items:start}
+.hit:last-child{border-bottom:none}
+.hit .rk{font-family:var(--mono);font-size:11px;color:var(--mute);padding-top:2px}
+.hit .ti{font-size:12.8px;color:var(--ink);font-weight:600;line-height:1.35}
+.hit .sub{font-family:var(--mono);font-size:10.5px;color:var(--mute);margin-top:3px;
+  display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.hit.arch{background:var(--warn-bg);border-radius:5px;margin:2px 0}
+.hit.arch .ti{color:#8A4620}
+.pillstat{font-family:var(--ui);font-size:9.5px;font-weight:700;border-radius:4px;padding:1.5px 6px;
+  background:var(--green-bg);color:var(--green)}
+.pillstat.arch{background:#F5D9C6;color:#9A4A1C}
+.ans{border-top:1px solid var(--line);padding:12px 15px;background:var(--paper)}
+.ans .lbl{font-size:10px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.ans p{font-size:13px;color:var(--ink);margin-top:5px;line-height:1.5}
+.ans .src{font-size:11px;color:var(--mute);margin-top:7px;display:flex;gap:5px;align-items:center;flex-wrap:wrap}
+.ans.bad{background:var(--warn-bg)}
+.ans.bad .lbl{color:var(--warn)}
+.ans.bad p{color:#7A3F1C}
+.ans.good{background:var(--green-bg)}
+.ans.good .lbl{color:var(--green)}
 
 /* ── Wissensbasis ────────────────────────────── */
 .filterbar{display:flex;gap:9px;flex-wrap:wrap;margin-top:24px;align-items:center}
@@ -371,6 +433,105 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
 .modal .warnbox{background:var(--sand-bg);border:1px solid #EDDFC4;border-radius:8px;padding:14px 16px;
   font-size:14px;color:#6E5326;margin-top:16px}
 
+/* ── Lesefortschritt ─────────────────────────── */
+.readbar{position:fixed;top:0;left:0;height:3px;width:0;z-index:120;
+  background:linear-gradient(90deg,var(--teal),var(--aurora));transition:width .1s linear}
+
+/* ── Aktiver Navigationspunkt (Scroll-Spy) ───── */
+.navitem>a.spy{color:#fff;border-bottom-color:var(--aurora)}
+.navitem>a.spy::before{content:"";position:absolute;left:16px;right:16px;bottom:0;height:2.5px;background:var(--aurora)}
+
+/* ── Nach oben ───────────────────────────────── */
+.totop{position:fixed;right:22px;bottom:22px;z-index:55;width:46px;height:46px;border-radius:50%;
+  background:var(--navy);color:#fff;border:1px solid rgba(255,255,255,.2);display:grid;place-items:center;
+  box-shadow:0 8px 24px rgba(7,22,39,.3);opacity:0;visibility:hidden;transform:translateY(10px);
+  transition:opacity .2s,transform .2s,visibility .2s}
+.totop.on{opacity:1;visibility:visible;transform:none}
+.totop:hover{background:var(--teal)}
+@media print{.totop{display:none}}
+
+/* ── Portal-Adresse teilen ───────────────────── */
+.sharebar{background:var(--navy);color:#CFDCEA}
+.sharebar .wrap{display:grid;grid-template-columns:auto 1fr auto;gap:20px;align-items:center;
+  padding-top:18px;padding-bottom:18px}
+@media(max-width:820px){.sharebar .wrap{grid-template-columns:1fr;gap:12px;text-align:left}}
+.sharebar .lab{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--aurora-lt);
+  font-weight:700;white-space:nowrap}
+.shareurl{font-family:var(--mono);font-size:15px;color:#fff;background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.16);border-radius:7px;padding:9px 14px;overflow-x:auto;white-space:nowrap}
+@media(max-width:620px){.shareurl{font-size:12.5px}}
+
+/* ── Vorfallbericht ──────────────────────────── */
+.ticket{margin-top:26px;background:var(--white);border:1px solid var(--line);border-radius:var(--r);overflow:hidden}
+.ticket>header{display:grid;grid-template-columns:1fr auto;gap:16px;align-items:center;
+  padding:16px 22px;background:var(--paper);border-bottom:1px solid var(--line)}
+@media(max-width:620px){.ticket>header{grid-template-columns:1fr}}
+.ticket .tid{font-family:var(--mono);font-size:12px;color:var(--mute)}
+.ticket h3{font-size:19px;margin-top:3px}
+.tstatus{display:inline-flex;align-items:center;gap:7px;font-size:12px;font-weight:700;border-radius:6px;
+  padding:6px 12px;background:var(--warn-bg);color:#A85526;white-space:nowrap}
+.tstatus i{width:8px;height:8px;border-radius:50%;background:var(--warn);display:block;
+  animation:puls 2.2s ease-in-out infinite}
+@keyframes puls{0%,100%{opacity:1}50%{opacity:.35}}
+@media(prefers-reduced-motion:reduce){.tstatus i{animation:none}}
+.tgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line)}
+@media(max-width:760px){.tgrid{grid-template-columns:repeat(2,1fr)}}
+.tgrid div{background:var(--white);padding:13px 18px}
+.tgrid dt{font-size:10.5px;letter-spacing:.11em;text-transform:uppercase;color:var(--teal);font-weight:700}
+.tgrid dd{font-size:13.5px;color:var(--ink);margin-top:4px}
+.tbody{padding:18px 22px 22px;border-top:1px solid var(--line)}
+.tbody h4{font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:var(--teal);
+  font-weight:700;margin-bottom:7px}
+.tbody h4:not(:first-child){margin-top:18px}
+.tbody p{font-size:14.5px;color:var(--body-ink);max-width:76ch}
+.tbody .quote{font-family:var(--mono);font-size:13px;background:var(--paper);border-left:3px solid var(--warn);
+  border-radius:0 7px 7px 0;padding:11px 15px;color:#5C4632;margin-top:8px}
+.tnext{margin-top:18px;background:var(--navy);color:#D3DFEC;border-radius:8px;padding:15px 18px;
+  font-size:14px;display:grid;grid-template-columns:auto 1fr;gap:13px;align-items:start}
+.tnext b{color:var(--aurora-lt)}
+
+/* ── Glossar ─────────────────────────────────── */
+.sheet--wide{max-width:840px}
+.gsearch{width:100%;border:1.5px solid var(--line);border-radius:8px;padding:11px 14px;
+  font-family:var(--ui);font-size:15px;color:var(--ink);background:var(--paper)}
+.gsearch:focus{outline:none;border-color:var(--teal);background:var(--white)}
+.glist{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:16px;max-height:52vh;overflow-y:auto;
+  padding-right:4px}
+@media(max-width:700px){.glist{grid-template-columns:1fr;max-height:60vh}}
+.gitem{border:1px solid var(--line);border-radius:8px;padding:11px 14px;background:var(--paper)}
+.gitem b{display:block;font-size:13.5px;color:var(--teal);font-weight:700}
+.gitem span{display:block;font-size:12.8px;color:var(--mute);margin-top:3px;line-height:1.5}
+.gitem mark{background:#FCEBBF;color:var(--ink);border-radius:3px;padding:0 2px}
+.gnone{display:none;text-align:center;color:var(--mute);font-size:14px;padding:22px 0}
+.gnone.on{display:block}
+kbd{font-family:var(--mono);font-size:11.5px;background:var(--paper);border:1px solid var(--line);
+  border-bottom-width:2px;border-radius:4px;padding:1px 6px;color:var(--ink)}
+
+/* ── Sanftes Einblenden beim Scrollen ────────── */
+.rv{opacity:0;transform:translateY(14px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+@media(prefers-reduced-motion:reduce){.rv{opacity:1;transform:none;transition:none}}
+
+/* ── Druckansicht: Handout ───────────────────── */
+@media print{
+  .util,.head,.setup,.crumb,.readbar,.modal,.hero-cta,.nb-go,.side,.desk,
+  .qpick,.filterbar,.skip,footer .fbottom nav{display:none!important}
+  body{background:#fff;color:#000;font-size:11pt}
+  .hero{background:#fff;color:#000;border:none}
+  .hero h1,.hero h1 em{color:#000}
+  .hero .sub,.hero-facts span{color:#333}
+  .hero-facts b{color:#000}
+  .sec,.sec-tight{padding:14pt 0;page-break-inside:avoid}
+  .card,.nb,.task,.faq,.tblbox,.mode{border-color:#bbb!important;box-shadow:none!important;
+    background:#fff!important;page-break-inside:avoid}
+  .band,.callout,.mission-quote{background:#f2f2f2!important;color:#000!important;border-color:#bbb!important}
+  .band b,.callout b{color:#000!important}
+  .hint,.sol{display:block!important}
+  .sol pre{background:#f4f4f4!important;color:#000!important;border:1px solid #ccc}
+  a[href^="http"]::after{content:" (" attr(href) ")";font-size:8pt;color:#555}
+  h2,h3{page-break-after:avoid}
+}
+
 :focus-visible{outline:2.5px solid var(--aurora);outline-offset:2px;border-radius:3px}
 .skip{position:absolute;left:-9999px;background:var(--aurora);color:var(--night);padding:11px 18px;
   border-radius:0 0 7px 0;font-weight:600;z-index:300}
@@ -379,6 +540,7 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
 </head>
 <body>
 <a class="skip" href="#werkbank">Direkt zur Werkbank</a>
+<div class="readbar" id="readbar" aria-hidden="true"></div>
 
 <!-- Utility -->
 <div class="util">
@@ -452,13 +614,18 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
           <div class="submenu">
             <a href="#hilfe">Häufige Fragen<small>Colab, Downloads, Neustart</small></a>
             <a href="#desk">Service-Desk<small>Wenn gar nichts mehr geht</small></a>
+            <a href="#" onclick="glossarAuf();return false">Glossar nachschlagen<small>Alle Fachbegriffe auf einen Blick</small></a>
             <div class="divider"></div>
+            <a href="moderator.html">Moderatorenpult<small>Nur fürs Workshop-Team</small></a>
             <a href="#" data-repo>Repository auf GitHub<small>Quellcode, Daten, Folien</small></a>
           </div>
         </div>
       </div>
       <div class="right">
-        <a class="btn btn--out btn--s" href="#ablauf">Ablauf ansehen</a>
+        <button class="btn btn--out btn--s" onclick="glossarAuf()" title="Glossar öffnen (Taste G)">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20"/><path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z"/></svg>
+          Glossar
+        </button>
       </div>
     </div>
   </div>
@@ -534,6 +701,18 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
     </figure>
   </div>
 </section>
+
+<!-- Portal-Adresse zum Weitergeben -->
+<div class="sharebar">
+  <div class="wrap">
+    <span class="lab">Portal-Adresse für alle</span>
+    <code class="shareurl" id="shareurl">…</code>
+    <button class="btn btn--out btn--s" onclick="linkKopieren(this)">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="9" y="9" width="12" height="12" rx="2"/><path d="M5 15V5a2 2 0 0 1 2-2h10"/></svg>
+      Link kopieren
+    </button>
+  </div>
+</div>
 
 <!-- Aktuelles -->
 <section class="news">
@@ -614,6 +793,82 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
         <figcaption>Umschlaglager Hamburg-Waltershof · Archiv &amp; Betriebsunterlagen</figcaption>
       </figure>
     </div>
+  </div>
+</section>
+
+<!-- Live-Demo -->
+<section class="sec" id="demo" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:none">
+  <div class="wrap">
+    <span class="eyebrow">Live-Demo aus dem Prototyp</span>
+    <h2>Dieselbe Frage, vier Suchverfahren</h2>
+    <p class="lead" style="margin-top:10px">Das hier sind keine Beispielbilder: Die Ergebnisse stammen aus einem
+      echten Durchlauf unserer Pipeline über die Wissensbasis. Wählt eine Frage — und achtet darauf,
+      <em>welche Quelle</em> jedes Verfahren nach oben sortiert.</p>
+
+    <div class="qpick" id="qpick" role="group" aria-label="Frage auswählen"></div>
+
+    <div class="qhead">
+      <div>
+        <div class="qlabel">Gestellte Frage</div>
+        <p class="qtext" id="qtext"></p>
+        <p class="qhint" id="qhint"></p>
+      </div>
+      <div class="qmeta" id="qmeta"></div>
+    </div>
+
+    <div class="modes" id="modes"></div>
+
+    <p class="tblnote" id="demofoot"></p>
+  </div>
+</section>
+
+<!-- Vorfallbericht -->
+<section class="sec" id="vorfall">
+  <div class="wrap">
+    <span class="eyebrow">Ticketsystem · Qualitätssicherung</span>
+    <h2>Ein offener Vorfall wartet auf euch</h2>
+    <p class="lead" style="margin-top:10px">Der Prototyp läuft seit zwei Wochen im Testbetrieb der Personalabteilung.
+      Die meisten Rückmeldungen sind gut — eine Meldung ist es nicht.</p>
+
+    <article class="ticket">
+      <header>
+        <div>
+          <div class="tid">Ticket WA-2026-014 · Projekt Wissensassistent</div>
+          <h3>Assistent nennt eine Regel, die so nicht mehr gilt</h3>
+        </div>
+        <span class="tstatus"><i></i>In Analyse</span>
+      </header>
+      <dl class="tgrid">
+        <div><dt>Gemeldet von</dt><dd>Personalabteilung</dd></div>
+        <div><dt>Eingegangen</dt><dd>20.07.2026</dd></div>
+        <div><dt>Schweregrad</dt><dd>Hoch — falsche Auskunft</dd></div>
+        <div><dt>Zugewiesen an</dt><dd>Projektteam (heute)</dd></div>
+      </dl>
+      <div class="tbody">
+        <h4>Beschreibung</h4>
+        <p>Eine neue Kollegin hat den Assistenten etwas völlig Alltägliches gefragt. Die Antwort kam prompt,
+          war sauber formuliert und nannte sogar eine Quelle. Nur stimmte sie nicht — die genannte Regelung
+          wurde vor über einem Jahr ersetzt.</p>
+        <div class="quote">&gt; Frage: „Wie viele Tage Homeoffice sind bei NordLicht erlaubt?“<br>
+          &gt; Antwort des Assistenten: … <em>(im Workshop reproduzieren)</em></div>
+
+        <h4>Bisherige Prüfung</h4>
+        <p>Die Suchqualität ist nachweislich in Ordnung: Das zitierte Dokument passt inhaltlich exakt zur Frage,
+          und alle Ranking-Stufen bewerten es übereinstimmend als hochrelevant. Ein Fehler im Retrieval ließ sich
+          bisher nicht finden. Genau das macht den Fall interessant.</p>
+
+        <h4>Offene Frage an das Projektteam</h4>
+        <p>Wie kann eine Pipeline nach allen Regeln der Kunst arbeiten und trotzdem eine falsche Auskunft geben?
+          Und was müsste sich ändern, damit so etwas nicht wieder passiert?</p>
+
+        <div class="tnext">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#2EC4B6" stroke-width="1.9" stroke-linecap="round" aria-hidden="true"><path d="M12 2v4M12 18v4M5 5l2.8 2.8M16.2 16.2 19 19M2 12h4M18 12h4M5 19l2.8-2.8M16.2 7.8 19 5"/></svg>
+          <p><b>Bearbeitung erfolgt im Workshop:</b> In Notebook&nbsp;03 baut ihr die Pipeline so weit aus, dass
+            ihr den Vorfall selbst reproduzieren könnt — und behebt ihn anschließend. Die Auflösung besprechen
+            wir gemeinsam im Plenum.</p>
+        </div>
+      </div>
+    </article>
   </div>
 </section>
 
@@ -704,10 +959,19 @@ footer address{font-style:normal;line-height:1.75;font-size:13.5px}
       <!-- Sidebar -->
       <aside class="side" aria-label="Fortschritt">
         <h4>Euer Fortschritt</h4>
+        <div class="whobox">
+          <label for="who">Wer arbeitet hier?</label>
+          <div class="whorow">
+            <input id="who" type="text" placeholder="Vorname eingeben" autocomplete="off" maxlength="24">
+            <button onclick="setzeName()" title="Profil wechseln">OK</button>
+          </div>
+          <p class="whonote" id="whonote">Der Fortschritt wird nur in diesem Browser gespeichert.</p>
+        </div>
         <div class="progress-wrap">
           <div class="bar"><i id="barfill"></i></div>
           <div class="progress-txt" id="prog">0 von 7 erledigt</div>
         </div>
+        <div class="toast" id="toast"></div>
         <ul id="checklist">
           <li><label><input type="checkbox" data-k="setup"><span>Setup-Zelle gestartet<small>Modelle laden im Hintergrund</small></span></label></li>
           <li><label><input type="checkbox" data-k="nb1"><span>Notebook 01 durchlaufen<small>Naive Pipeline steht</small></span></label></li>
@@ -1035,6 +1299,13 @@ return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
             wir gehen durch die Reihen.</div>
         </details>
         <details>
+          <summary>Gibt es Tastenkürzel oder ein Handout zum Mitnehmen?</summary>
+          <div class="ans"><kbd>G</kbd> öffnet das Glossar mit allen Fachbegriffen, <kbd>W</kbd> springt zur Werkbank,
+            <kbd>P</kbd> startet die Präsentation. Und wer lieber etwas in der Hand hat: Diese Seite ausdrucken
+            (<kbd>Strg</kbd>+<kbd>P</kbd>) ergibt ein aufgeräumtes Handout — Navigation und Schaltflächen fallen
+            dabei weg, Hinweise und Lösungen sind vollständig enthalten.</div>
+        </details>
+        <details>
           <summary>Wo finde ich Folien, Daten und Quellcode?</summary>
           <div class="ans">Alles liegt offen im Repository: die vier Notebooks, die Musterlösungen, der komplette
             Dokumenten-Korpus, der Prüffragen-Katalog und der Foliensatz. Der Link steht im Fußbereich dieser Seite.</div>
@@ -1102,7 +1373,9 @@ return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
         <h5>Service</h5>
         <ul>
           <li><a href="#hilfe">Häufige Fragen</a></li>
+          <li><a href="#" onclick="glossarAuf();return false">Glossar</a></li>
           <li><a href="#desk">IT-Service-Desk</a></li>
+          <li><a href="moderator.html">Moderatorenpult</a></li>
           <li><a href="#" data-repo>Repository auf GitHub</a></li>
           <li><a href="#" data-repofile="README.md">Technische Dokumentation</a></li>
         </ul>
@@ -1119,6 +1392,19 @@ return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
     </div>
   </div>
 </footer>
+
+<!-- Glossar -->
+<div class="modal" id="m-glossar" onclick="bgClose(event,'glossar')">
+  <div class="sheet sheet--wide" role="dialog" aria-modal="true" aria-label="Glossar">
+    <button class="close" onclick="closeM('glossar')" aria-label="Schließen">×</button>
+    <h3>Glossar</h3>
+    <p style="font-size:14px;color:var(--mute);margin-bottom:14px">
+      Die wichtigsten Begriffe des Workshops. Tippt zum Filtern — oder drückt einfach <kbd>G</kbd>, um das Glossar zu öffnen.</p>
+    <input class="gsearch" id="gsearch" type="search" placeholder="Begriff suchen, z. B. Reranking …" autocomplete="off">
+    <div class="glist" id="glist"></div>
+    <p class="gnone" id="gnone">Kein Treffer — probiert einen anderen Begriff.</p>
+  </div>
+</div>
 
 <!-- Modals -->
 <div class="modal" id="m-impressum" onclick="bgClose(event,'impressum')">
@@ -1247,35 +1533,81 @@ function copy(btn){
   });
 }
 
-/* Fortschritt (nur lokal im Browser) */
-const KEY = "nl-workshop-fortschritt";
-function loadProgress(){
-  let saved = {};
-  try { saved = JSON.parse(localStorage.getItem(KEY) || "{}"); } catch(e){}
-  document.querySelectorAll("#checklist input").forEach(c=>{
-    c.checked = !!saved[c.dataset.k];
-    c.addEventListener("change", saveProgress);
-  });
-  paint();
+/* Fortschritt — pro Person, nur lokal im Browser gespeichert */
+const BASIS = "nl-fortschritt";
+const LABELS = {setup:"Setup-Zelle", nb1:"Notebook 01", u1:"Übung 1", u2:"Übung 2",
+                u3:"Übung 3", u4:"Übung 4", nb4:"Evaluation"};
+let person = "";
+
+function schluessel(){ return person ? `${BASIS}:${person.toLowerCase()}` : BASIS; }
+
+function ladeName(){
+  try { person = localStorage.getItem(BASIS + ":name") || ""; } catch(e){}
+  document.getElementById("who").value = person;
+  zeigeName();
 }
-function saveProgress(){
+function zeigeName(){
+  document.getElementById("whonote").innerHTML = person
+    ? `Fortschritt von <b>${person.replace(/[<>&]/g,"")}</b> — nur in diesem Browser gespeichert.`
+    : "Der Fortschritt wird nur in diesem Browser gespeichert.";
+}
+function setzeName(){
+  person = document.getElementById("who").value.trim().slice(0,24);
+  try { localStorage.setItem(BASIS + ":name", person); } catch(e){}
+  zeigeName();
+  ladeProgress();
+  melde(person ? `Profil gewechselt: ${person}` : "Profil zurückgesetzt");
+}
+document.getElementById("who").addEventListener("keydown", e=>{ if (e.key==="Enter") setzeName(); });
+
+function ladeProgress(){
+  let gespeichert = {};
+  try { gespeichert = JSON.parse(localStorage.getItem(schluessel()) || "{}"); } catch(e){}
+  document.querySelectorAll("#checklist input").forEach(c=>{ c.checked = !!gespeichert[c.dataset.k]; });
+  male();
+}
+function speichere(){
   const o = {};
   document.querySelectorAll("#checklist input").forEach(c=>o[c.dataset.k]=c.checked);
-  try { localStorage.setItem(KEY, JSON.stringify(o)); } catch(e){}
-  paint();
+  try { localStorage.setItem(schluessel(), JSON.stringify(o)); } catch(e){}
+  male();
 }
-function paint(){
-  const all = document.querySelectorAll("#checklist input");
-  const done = [...all].filter(c=>c.checked).length;
-  document.getElementById("barfill").style.width = (done/all.length*100) + "%";
+function male(){
+  const alle = document.querySelectorAll("#checklist input");
+  const fertig = [...alle].filter(c=>c.checked).length;
+  document.getElementById("barfill").style.width = (fertig/alle.length*100) + "%";
   document.getElementById("prog").textContent =
-    done === all.length ? "Alles erledigt — stark!" : `${done} von ${all.length} erledigt`;
+    fertig === alle.length ? "Alles erledigt — stark!" : `${fertig} von ${alle.length} erledigt`;
 }
 function resetProgress(){
   document.querySelectorAll("#checklist input").forEach(c=>c.checked=false);
-  saveProgress();
+  speichere();
 }
-loadProgress();
+function melde(text){
+  const t = document.getElementById("toast");
+  t.textContent = text; t.classList.add("on");
+  clearTimeout(t._w); t._w = setTimeout(()=>t.classList.remove("on"), 4000);
+}
+document.querySelectorAll("#checklist input").forEach(c=>c.addEventListener("change", speichere));
+ladeName();
+ladeProgress();
+
+/* Aus dem Notebook abhaken: ...?fertig=u1  (mehrere per Komma) */
+(function ausNotebook(){
+  const p = new URLSearchParams(location.search).get("fertig");
+  if (!p) return;
+  const neu = [];
+  p.split(",").map(s=>s.trim()).forEach(k=>{
+    const box = document.querySelector(`#checklist input[data-k="${CSS.escape(k)}"]`);
+    if (box && !box.checked) { box.checked = true; neu.push(LABELS[k] || k); }
+  });
+  speichere();
+  if (neu.length) {
+    melde("✓ Abgehakt: " + neu.join(", "));
+    document.getElementById("werkbank").scrollIntoView({behavior:"smooth", block:"start"});
+  }
+  history.replaceState({}, "", location.pathname + location.hash);
+})();
 
 /* Dokumentenfilter */
 function filt(btn,key){
@@ -1306,6 +1638,136 @@ document.getElementById("q").addEventListener("keydown",e=>{
   const hit = map.find(([k])=>v.includes(k));
   location.hash = hit ? hit[1] : "#werkbank";
   e.target.blur();
+});
+
+/* ── Live-Demo: echte Pipeline-Ergebnisse ───────────────────── */
+let DEMO = null, demoIdx = 0;
+
+fetch("assets/demo-daten.json")
+  .then(r => r.ok ? r.json() : Promise.reject())
+  .then(d => { DEMO = d; document.getElementById("demo").style.display = ""; baueDemo(); })
+  .catch(() => { /* Datei noch nicht erzeugt: Abschnitt bleibt ausgeblendet */ });
+
+function baueDemo(){
+  document.getElementById("qpick").innerHTML = DEMO.fragen.map((f,x)=>
+    `<button class="qchip${x===0?" act":""}" onclick="waehleFrage(${x})">${f.falle?'<span class="warnpin"></span>':""}${f.kurz}</button>`
+  ).join("");
+  document.getElementById("demofoot").textContent =
+    `Echter Pipeline-Durchlauf über ${DEMO.korpus.chunks} Chunks aus ${DEMO.korpus.dokumente} Dokumenten · exportiert am ${neuDatum(DEMO.erzeugt)} · Top-3 je Verfahren.`;
+  zeigeFrage();
+}
+function neuDatum(iso){
+  const [j,m,t] = iso.split("-");
+  return `${t}.${m}.${j}`;
+}
+function waehleFrage(x){
+  demoIdx = x;
+  document.querySelectorAll(".qchip").forEach((c,i)=>c.classList.toggle("act", i===x));
+  zeigeFrage();
+}
+function zeigeFrage(){
+  const f = DEMO.fragen[demoIdx];
+  document.getElementById("qtext").textContent = "„" + f.frage + "“";
+  document.getElementById("qhint").textContent = f.hinweis;
+  document.getElementById("qmeta").innerHTML = f.falle
+    ? '<b>⚠ Der Störfall</b>Genau hinsehen'
+    : "Top-3 Treffer<br>je Verfahren";
+
+  const esc = s => String(s).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  document.getElementById("modes").innerHTML = DEMO.modi.map(m=>{
+    const r = f.ergebnisse[m.id];
+    if (!r) return "";
+    const hits = r.treffer.map((h,i)=>{
+      const arch = h.status === "archiviert";
+      return `<li class="hit${arch?" arch":""}">
+        <span class="rk">${i+1}.</span>
+        <span><span class="ti">${esc(h.titel)}</span>
+        <span class="sub">${h.jahr}<span class="pillstat${arch?" arch":""}">${esc(h.status)}</span>${m.skala} ${h.score}</span></span></li>`;
+    }).join("");
+    const arch = r.quelle.status === "archiviert";
+    const gut = m.id === "advanced" && !arch;
+    return `<article class="mode${gut && f.falle ? " best" : ""}">
+      <header><h4>${esc(m.name)}</h4><span>${esc(m.unter)}</span></header>
+      <ul class="hits">${hits}</ul>
+      <div class="ans ${arch ? "bad" : (gut ? "good" : "")}">
+        <div class="lbl">${arch ? "Antwort · fehlerhaft" : "Antwort"}</div>
+        <p>${esc(r.antwort)}</p>
+        <div class="src">Quelle: ${esc(r.quelle.titel)} (${r.quelle.jahr})
+          <span class="pillstat${arch?" arch":""}">${esc(r.quelle.status)}</span></div>
+      </div></article>`;
+  }).join("");
+}
+
+/* ── Glossar ────────────────────────────────────────────────── */
+const GLOSSAR = [
+  ["Embedding","Text als dichter Zahlenvektor. Ähnliche Bedeutung führt zu ähnlichen Vektoren — das macht Bedeutung rechenbar."],
+  ["Chunk","Ein Dokumentabschnitt, der einzeln durchsucht wird. Bei uns: ein Absatz."],
+  ["Chunking","Das Zerlegen von Dokumenten in Chunks. Varianten: feste Größe, semantisch, hierarchisch."],
+  ["Kosinus-Ähnlichkeit","Misst den Winkel zwischen zwei Vektoren. 1,0 bedeutet identische Richtung, 0 keinen Zusammenhang."],
+  ["Bi-Encoder","Encodiert Frage und Dokument getrennt. Dadurch vorberechenbar und schnell genug für große Bestände."],
+  ["Cross-Encoder","Liest Frage und Dokument gemeinsam und gibt einen direkten Relevanzwert. Präziser, aber deutlich teurer."],
+  ["BM25","Klassische Stichwortsuche. Bewertet nach Worthäufigkeit, Seltenheit im Bestand und Dokumentlänge."],
+  ["Vocabulary Mismatch","Frage und Dokument meinen dasselbe, benutzen aber andere Wörter — der Klassiker unter den Suchproblemen."],
+  ["Hybrid Search","Stichwortsuche und Vektorsuche parallel, danach zusammengeführt. Deckt Bedeutung und exakte Begriffe ab."],
+  ["RRF","Reciprocal Rank Fusion. Führt Ranglisten allein über Rangplätze zusammen, ohne unvergleichbare Scores zu mischen."],
+  ["Reranking","Zweiter, genauerer Sortierdurchgang über die besten Kandidaten aus der ersten Stufe."],
+  ["Recall","Anteil des Relevanten, das überhaupt gefunden wurde. Hoher Recall heißt: nichts übersehen."],
+  ["Precision","Anteil des Gefundenen, der tatsächlich relevant ist. Hohe Precision heißt: wenig Ballast."],
+  ["Hit@3","Steht mindestens ein passendes Dokument unter den ersten drei Treffern?"],
+  ["MRR","Mean Reciprocal Rank. Belohnt, wenn der erste passende Treffer weit oben steht (Platz 1 = 1,0; Platz 2 = 0,5)."],
+  ["Gold-Testset","Sammlung von Fragen mit bekannter richtiger Antwort. Grundlage jeder ehrlichen Bewertung."],
+  ["RAGAS","Bewertungsrahmen für RAG-Systeme mit vier Kennzahlen zu Suche und Antwortqualität."],
+  ["Faithfulness","Hält sich die Antwort an den gelieferten Kontext, statt zu erfinden?"],
+  ["Vektordatenbank","Speichert Embeddings und findet Nachbarn sehr schnell, etwa pgvector, Qdrant oder Chroma."],
+  ["ANN","Approximate Nearest Neighbor. Näherungssuche, die statt aller Vergleiche nur die aussichtsreichen prüft."],
+  ["HNSW","Mehrschichtiger Graph für ANN-Suche: oben grobe Sprünge, unten das genaue Ergebnis."],
+  ["Metadaten","Zusatzangaben zum Dokument wie Jahr, Status oder Zuständigkeit. Stehen nicht im Text — und entscheiden trotzdem alles."],
+  ["Fine-Tuning","Das Modell selbst nachtrainieren. Löst Verhaltensprobleme, keine Wissenslücken."],
+  ["LoRA / QLoRA","Sparsame Fine-Tuning-Verfahren: nur wenige zusätzliche Gewichte werden trainiert."],
+  ["ReAct","Agenten-Schleife aus Überlegen, Handeln und Beobachten — bis die Aufgabe gelöst ist."],
+  ["Halluzination","Eine flüssig formulierte, aber sachlich falsche Antwort. Der teuerste Fehler im Betrieb."],
+];
+
+function glossarAuf(){
+  if (!document.getElementById("glist").children.length) glossarMalen("");
+  openM("glossar");
+  setTimeout(()=>document.getElementById("gsearch").focus(), 60);
+}
+function glossarMalen(suche){
+  const q = suche.trim().toLowerCase();
+  const esc = s => String(s).replace(/[&<>]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;"}[c]));
+  const hebe = s => q ? esc(s).replace(new RegExp("("+q.replace(/[.*+?^${}()|[\]\\]/g,"\\$&")+")","gi"),"<mark>$1</mark>") : esc(s);
+  const treffer = GLOSSAR.filter(([b,t]) => !q || (b+" "+t).toLowerCase().includes(q));
+  document.getElementById("glist").innerHTML =
+    treffer.map(([b,t]) => `<div class="gitem"><b>${hebe(b)}</b><span>${hebe(t)}</span></div>`).join("");
+  document.getElementById("gnone").classList.toggle("on", treffer.length === 0);
+}
+document.getElementById("gsearch").addEventListener("input", e => glossarMalen(e.target.value));
+
+/* ── Lesefortschritt ────────────────────────────────────────── */
+const readbar = document.getElementById("readbar");
+addEventListener("scroll", ()=>{
+  const h = document.documentElement.scrollHeight - innerHeight;
+  readbar.style.width = (h > 0 ? Math.min(100, scrollY / h * 100) : 0) + "%";
+}, {passive:true});
+
+/* ── Abschnitte sanft einblenden ────────────────────────────── */
+if ("IntersectionObserver" in window) {
+  const beob = new IntersectionObserver(eintraege=>{
+    eintraege.forEach(e=>{ if (e.isIntersecting) { e.target.classList.add("in"); beob.unobserve(e.target); } });
+  }, {rootMargin:"0px 0px -8% 0px", threshold:.05});
+  document.querySelectorAll(".card, .person, .nb, .tl, .mode, .problems li").forEach(el=>{
+    el.classList.add("rv"); beob.observe(el);
+  });
+}
+
+/* ── Tastenkürzel ───────────────────────────────────────────── */
+document.addEventListener("keydown", e=>{
+  if (e.target.matches("input, textarea") || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key.toLowerCase();
+  if (k === "g") { e.preventDefault(); glossarAuf(); }
+  else if (k === "w") document.getElementById("werkbank").scrollIntoView({behavior:"smooth"});
+  else if (k === "p") location.href = "praesentation.html";
 });
 
 document.getElementById("yr").textContent = new Date().getFullYear();
