@@ -1028,14 +1028,16 @@ kbd{font-family:var(--mono);font-size:11.5px;background:var(--paper);border:1px 
                 <div class="hint" id="h1b">Für Top-k: erst alle Scores berechnen, dann mit
                   <code>np.argsort(scores)[::-1][:k]</code> die absteigend sortierten Indizes holen und davon die ersten k nehmen.</div>
                 <div class="sol" id="s1"><button class="cp" onclick="copy(this)">Kopieren</button>
-<pre># Kosinus-Ähnlichkeit
-return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
+<pre>def kosinus_aehnlichkeit(a, b):
+    return float(np.dot(a, b) / (np.linalg.norm(a) * np.linalg.norm(b)))
 
-# Top-k-Suche
-scores = [kosinus_aehnlichkeit(frage_vektor, v) for v in chunk_vektoren]
-reihenfolge = np.argsort(scores)[::-1][:k]
-return [(chunks[i], float(scores[i])) for i in reihenfolge]</pre>
-                  <p class="sol-note">Vergleicht am besten erst, wenn eure eigene Fassung läuft — der Selbsttest sagt euch, ob ihr richtig liegt.</p>
+
+def suche_dense(frage, k=3):
+    frage_vektor = embedder.encode(frage)
+    scores = [kosinus_aehnlichkeit(frage_vektor, v) for v in chunk_vektoren]
+    reihenfolge = np.argsort(scores)[::-1][:k]
+    return [(chunks[i], float(scores[i])) for i in reihenfolge]</pre>
+                  <p class="sol-note">Ersetzt damit die kompletten Funktionen im Notebook, nicht nur die TODO-Zeilen. Vergleicht am besten erst, wenn eure eigene Fassung läuft.</p>
                 </div>
               </div>
             </div>
@@ -1081,10 +1083,13 @@ return [(chunks[i], float(scores[i])) for i in reihenfolge]</pre>
                 <div class="hint" id="h2b">Pro Chunk-ID aufsummieren:
                   <code>scores.get(chunk_id, 0.0) + 1.0 / (k + rang)</code>. Im Selbsttest muss B mit 1/62 + 1/61 gewinnen.</div>
                 <div class="sol" id="s2"><button class="cp" onclick="copy(this)">Kopieren</button>
-<pre>for rangliste in ranglisten:
-    for rang, chunk_id in enumerate(rangliste, start=1):
-        scores[chunk_id] = scores.get(chunk_id, 0.0) + 1.0 / (k + rang)</pre>
-                  <p class="sol-note">Konsistenz über beide Listen schlägt den einzelnen Spitzenplatz — genau das belohnt RRF.</p>
+<pre>def rrf_fusion(ranglisten, k=60):
+    scores = {}
+    for rangliste in ranglisten:
+        for rang, chunk_id in enumerate(rangliste, start=1):
+            scores[chunk_id] = scores.get(chunk_id, 0.0) + 1.0 / (k + rang)
+    return scores</pre>
+                  <p class="sol-note">Ersetzt damit die komplette Funktion im Notebook. Konsistenz über beide Listen schlägt den einzelnen Spitzenplatz, genau das belohnt RRF.</p>
                 </div>
               </div>
             </div>
@@ -1131,10 +1136,12 @@ return [(chunks[i], float(scores[i])) for i in reihenfolge]</pre>
                 <div class="hint" id="h3b">Danach wie in Übung 1 absteigend sortieren
                   (<code>np.argsort(scores)[::-1][:top_n]</code>) und Kandidat samt Score zurückgeben.</div>
                 <div class="sol" id="s3"><button class="cp" onclick="copy(this)">Kopieren</button>
-<pre>paare = [(frage, c["text"]) for c in kandidaten]
-scores = cross_encoder.predict(paare)
-reihenfolge = np.argsort(scores)[::-1][:top_n]
-return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
+<pre>def reranke(frage, kandidaten, top_n=3):
+    paare = [(frage, c["text"]) for c in kandidaten]
+    scores = cross_encoder.predict(paare)
+    reihenfolge = np.argsort(scores)[::-1][:top_n]
+    return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
+                  <p class="sol-note">Ersetzt damit die komplette Funktion im Notebook.</p>
                 </div>
               </div>
               <div class="task">
@@ -1149,8 +1156,12 @@ return [(kandidaten[i], float(scores[i])) for i in reihenfolge]</pre>
                 <div class="hint" id="h4b">Eine List-Comprehension <em>vor</em> dem Reranking genügt. Der Selbsttest prüft,
                   dass keine archivierten Chunks mehr durchkommen.</div>
                 <div class="sol" id="s4"><button class="cp" onclick="copy(this)">Kopieren</button>
-<pre>kandidaten = [c for c in kandidaten if c["status"] != "archiviert"]</pre>
-                  <p class="sol-note">Eine Zeile Code — worum es dabei wirklich geht, besprechen wir anschließend gemeinsam.</p>
+<pre>def suche_advanced(frage, k=3, nur_gueltige=False):
+    kandidaten = [c for c, _ in suche_hybrid(frage, k=8)]
+    if nur_gueltige:
+        kandidaten = [c for c in kandidaten if c["status"] != "archiviert"]
+    return reranke(frage, kandidaten, top_n=k)</pre>
+                  <p class="sol-note">Ersetzt damit die komplette Funktion im Notebook. Geändert hat sich genau eine Zeile. Worum es dabei wirklich geht, besprechen wir anschließend gemeinsam.</p>
                 </div>
               </div>
             </div>
