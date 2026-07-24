@@ -788,6 +788,13 @@ kbd{font-family:var(--mono);font-size:11.5px;background:var(--paper);border:1px 
       echten Durchlauf unserer Pipeline über die Wissensbasis. Wählt eine Frage — und achtet darauf,
       <em>welche Quelle</em> jedes Verfahren nach oben sortiert.</p>
 
+    <p style="margin-top:14px">
+      <a class="btn btn--go" href="live.html">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.1" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 3l14 9-14 9V3z"/></svg>
+        Eigene Frage stellen — Modelle laufen live im Browser
+      </a>
+    </p>
+
     <div class="qpick" id="qpick" role="group" aria-label="Frage auswählen"></div>
 
     <div class="qhead">
@@ -1142,6 +1149,27 @@ def suche_dense(frage, k=3):
         </div>
       </div>
     </div>
+  </div>
+</section>
+
+<!-- Ergebnis: erscheint erst, wenn assets/benchmark.json existiert -->
+<section class="sec" id="ergebnis" style="background:var(--white);border-top:1px solid var(--line);border-bottom:1px solid var(--line);display:none">
+  <div class="wrap">
+    <span class="eyebrow">Notebook 04 · Messergebnis</span>
+    <h2>Beweisen statt behaupten</h2>
+    <p class="lead" style="margin-top:10px">Fünf Ausbaustufen, gegen dieselben fünfzehn Gold-Fragen
+      gemessen. Keine Schätzung, keine Anekdote — das ist der Durchlauf aus Notebook&nbsp;04.</p>
+
+    <div class="bmbox">
+      <div class="bmlegende">
+        <span class="bmkey"><i style="background:var(--teal)"></i>Hit@3 <span>relevantes Dokument in den Top-3</span></span>
+        <span class="bmkey"><i style="background:var(--aurora)"></i>MRR <span>Rang des ersten Treffers</span></span>
+      </div>
+      <div class="bmchart" id="bmchart"></div>
+      <p class="tblnote" id="bmfuss"></p>
+    </div>
+
+    <div class="bmpointe" id="bmpointe"></div>
   </div>
 </section>
 
